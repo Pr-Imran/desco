@@ -6,6 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DESCO Prepaid Dashboard</title>
 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css" rel="stylesheet" />
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -63,7 +71,8 @@
       align-items: end;
     }
 
-    label {
+    label,
+    .form-label {
       display: block;
       font-size: 12px;
       font-weight: 700;
@@ -71,31 +80,86 @@
       margin-bottom: 6px;
     }
 
-    input, select, button {
-      width: 100%;
+    .form-control,
+    .form-select,
+    .input-group-text,
+    .btn {
       height: 42px;
       border-radius: 10px;
-      border: 1px solid var(--border);
-      padding: 0 12px;
       font-size: 14px;
-      background: white;
     }
 
-    button {
-      cursor: pointer;
-      border: none;
-      background: var(--primary);
-      color: white;
+    .input-group .form-control,
+    .input-group .input-group-text {
+      border-radius: 10px;
+    }
+
+    .input-group .input-group-text:first-child {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .input-group .form-control:last-child {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    .btn {
       font-weight: 700;
     }
 
-    button.secondary {
-      background: #eef4ff;
-      color: #0b3d91;
-      border: 1px solid #bad2ff;
+
+    .modern-date-input,
+    .modern-month-input {
+      cursor: pointer;
+      background: #fff;
     }
 
-    button.success { background: var(--success); color: white; }
+    .flatpickr-calendar {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 18px 55px rgba(16, 24, 40, .18);
+      border: 1px solid var(--border);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .flatpickr-day {
+      border-radius: 10px;
+    }
+
+    .flatpickr-day.selected,
+    .flatpickr-day.startRange,
+    .flatpickr-day.endRange {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .flatpickr-monthSelect-month {
+      border-radius: 12px;
+    }
+
+    .flatpickr-monthSelect-month.selected {
+      background: var(--primary);
+      color: white;
+    }
+
+    .input-group-text {
+      background: #f8fafc;
+      color: #475467;
+      border-color: var(--border);
+      font-weight: 700;
+    }
+
+    .form-control,
+    .form-select {
+      border-color: var(--border);
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 .2rem rgba(20, 99, 255, .12);
+    }
 
     .status {
       margin-top: 12px;
@@ -210,25 +274,65 @@
     </section>
 
     <section class="panel">
-      <div class="form-grid">
-        <div><label>Account No</label><input id="accountNo" value="41301620" placeholder="Enter account no" /></div>
-        <div><label>Meter No</label><input id="meterNo" value="661150029802" placeholder="Enter meter no" /></div>
-        <div><label>Daily From</label><input id="dailyFrom" type="date" /></div>
-        <div><label>Daily To</label><input id="dailyTo" type="date" /></div>
-        <div><label>Monthly From</label><input id="monthFrom" type="month" /></div>
-        <div><label>Monthly To</label><input id="monthTo" type="month" /></div>
+      <div class="row g-3 align-items-end">
+        <div class="col-12 col-md-6 col-xl-3">
+          <label for="accountNo" class="form-label">Account No</label>
+          <div class="input-group">
+            <span class="input-group-text">A/C</span>
+            <input id="accountNo" class="form-control" value="41301620" placeholder="Enter account no" />
+          </div>
+        </div>
 
-        <div>
-          <label>System</label>
-          <select id="systemType">
+        <div class="col-12 col-md-6 col-xl-3">
+          <label for="meterNo" class="form-label">Meter No</label>
+          <div class="input-group">
+            <span class="input-group-text">Meter</span>
+            <input id="meterNo" class="form-control" value="661150029802" placeholder="Enter meter no" />
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-3">
+          <label for="dailyFrom" class="form-label">Daily From</label>
+          <input id="dailyFrom" type="text" class="form-control modern-date-input" />
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-3">
+          <label for="dailyTo" class="form-label">Daily To</label>
+          <input id="dailyTo" type="text" class="form-control modern-date-input" />
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-3">
+          <label for="monthFrom" class="form-label">Monthly From</label>
+          <input id="monthFrom" type="text" class="form-control modern-month-input" />
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-3">
+          <label for="monthTo" class="form-label">Monthly To</label>
+          <input id="monthTo" type="text" class="form-control modern-month-input" />
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-3">
+          <label for="systemType" class="form-label">System</label>
+          <select id="systemType" class="form-select">
             <option value="tkdes">tkdes</option>
             <option value="unified">unified customer info only</option>
           </select>
         </div>
 
-        <div><button id="loadBtn" type="button">Load Dashboard</button></div>
-        <div><button class="secondary" id="exportBtn" type="button">Export JSON</button></div>
-        <div><button class="success" id="rechargeBtn" type="button">Recharge Now</button></div>
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="d-grid gap-2 d-md-flex">
+            <button id="loadBtn" type="button" class="btn btn-primary flex-fill">Load</button>
+            <button class="btn btn-outline-primary flex-fill" id="exportBtn" type="button">Export</button>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-3">
+          <button class="btn btn-success w-100" id="rechargeBtn" type="button">Recharge Now</button>
+        </div>
+      </div>
+
+      <div class="small text-muted mt-3">
+        Default date range is last 6 months. Modern date/month pickers are enabled. Ranges over 1 year are blocked.
       </div>
 
       <div id="status" class="status">Ready. Dates will auto-select after page load.</div>
@@ -251,12 +355,30 @@
       <div class="card"><div class="section-title"><h2>Recharge History</h2><span>Fetched once with async/await retry</span></div><canvas id="rechargeChart"></canvas></div>
     </section>
 
+    <section class="grid-2">
+      <div class="card">
+        <div class="section-title">
+          <h2>Current Month Recharge History</h2>
+          <span>Line graph for current month only</span>
+        </div>
+        <canvas id="currentMonthRechargeChart"></canvas>
+      </div>
+
+      <div class="card">
+        <div class="section-title">
+          <h2>Current Month Recharge Table</h2>
+          <span>Only current month recharge entries</span>
+        </div>
+        <div id="currentMonthRechargeTable" class="table-wrap"></div>
+      </div>
+    </section>
+
     <section class="grid-1">
       <div class="card"><div class="section-title"><h2>Customer Information</h2><span id="customerSource">--</span></div><div id="customerTable" class="table-wrap"></div></div>
       <div class="card"><div class="section-title"><h2>Daily Consumption Table</h2><span>Current month only + calculated daily usage</span></div><div id="dailyTable" class="table-wrap"></div></div>
       <div class="card"><div class="section-title"><h2>Monthly Consumption Table</h2><span>Includes current month from daily calculation</span></div><div id="monthlyTable" class="table-wrap"></div></div>
       <div class="card"><div class="section-title"><h2>Recharge History Table</h2><span>DESCO max range: 12 months</span></div><div id="rechargeTable" class="table-wrap"></div></div>
-      <div class="card note"><strong>Important:</strong> Default date range is last 6 months. DESCO recharge history rejects ranges over 12 months, so this dashboard validates with SweetAlert and uses a safe recharge range. Recharge Now opens the official eKPay DESCO Prepaid biller page in a new tab.</div>
+      <div class="card note"><strong>Important:</strong> Default date range is last 6 months. Modern Flatpickr date/month pickers are enabled. DESCO recharge history rejects ranges over 12 months, so this dashboard validates with SweetAlert and uses a safe recharge range. A separate current-month recharge line graph and table are also shown. Recharge Now opens the official eKPay DESCO Prepaid biller page in a new tab.</div>
     </section>
   </div>
 
@@ -360,6 +482,62 @@
       el("dailyTo").value = toDateInputValue(dailyTo);
       el("monthFrom").value = toMonthInputValue(monthFrom);
       el("monthTo").value = toMonthInputValue(monthTo);
+
+      if (window.dailyFromPicker) window.dailyFromPicker.setDate(el("dailyFrom").value, false);
+      if (window.dailyToPicker) window.dailyToPicker.setDate(el("dailyTo").value, false);
+      if (window.monthFromPicker) window.monthFromPicker.setDate(el("monthFrom").value, false);
+      if (window.monthToPicker) window.monthToPicker.setDate(el("monthTo").value, false);
+    }
+
+    function initDatePickers() {
+      if (typeof flatpickr === "undefined") {
+        console.warn("Flatpickr not loaded. Falling back to plain text date fields.");
+        return;
+      }
+
+      window.dailyFromPicker = flatpickr("#dailyFrom", {
+        dateFormat: "Y-m-d",
+        allowInput: true,
+        disableMobile: true,
+        maxDate: "today"
+      });
+
+      window.dailyToPicker = flatpickr("#dailyTo", {
+        dateFormat: "Y-m-d",
+        allowInput: true,
+        disableMobile: true,
+        maxDate: "today"
+      });
+
+      window.monthFromPicker = flatpickr("#monthFrom", {
+        dateFormat: "Y-m",
+        altInput: true,
+        altFormat: "F Y",
+        allowInput: true,
+        disableMobile: true,
+        plugins: [
+          new monthSelectPlugin({
+            shorthand: true,
+            dateFormat: "Y-m",
+            altFormat: "F Y"
+          })
+        ]
+      });
+
+      window.monthToPicker = flatpickr("#monthTo", {
+        dateFormat: "Y-m",
+        altInput: true,
+        altFormat: "F Y",
+        allowInput: true,
+        disableMobile: true,
+        plugins: [
+          new monthSelectPlugin({
+            shorthand: true,
+            dateFormat: "Y-m",
+            altFormat: "F Y"
+          })
+        ]
+      });
     }
 
     function setStatus(text, isError) {
@@ -693,6 +871,35 @@
         },
         options: chartOptions()
       });
+    
+      var currentMonth = toMonthInputValue(new Date());
+      var currentMonthRechargeRows = rechargeRows.filter(function(row) {
+        return row.date && row.date.indexOf(currentMonth) === 0;
+      });
+
+      renderChart("currentMonthRechargeChart", {
+        type: "line",
+        data: {
+          labels: currentMonthRechargeRows.map(function(x) {
+            return x.dateTime || x.date;
+          }),
+          datasets: [
+            {
+              label: "Total Amount",
+              data: currentMonthRechargeRows.map(function(x) {
+                return round(x.totalAmount);
+              })
+            },
+            {
+              label: "Energy Amount",
+              data: currentMonthRechargeRows.map(function(x) {
+                return round(x.energyAmount);
+              })
+            }
+          ]
+        },
+        options: chartOptions()
+      });
     }
 
     function renderCustomerTable(customer) {
@@ -763,6 +970,35 @@
       html += "</tbody></table>";
       el("rechargeTable").innerHTML = html;
     }
+
+    function renderCurrentMonthRechargeTable(rows) {
+      var currentMonthRows = rows.slice().sort(function(a, b) {
+        return new Date(b.dateTime || b.date) - new Date(a.dateTime || a.date);
+      });
+
+      var html = "<table><thead><tr><th>Order No</th><th>Date & Time</th><th class=\"num\">Total Amount</th><th class=\"num\">Energy Amount</th><th class=\"num\">VAT</th><th class=\"num\">Demand Charge</th><th class=\"num\">Meter Rent</th><th>Status</th></tr></thead><tbody>";
+
+      if (!currentMonthRows.length) {
+        html += "<tr><td colspan=\"8\">No recharge found for the current month.</td></tr>";
+      }
+
+      currentMonthRows.forEach(function(row) {
+        html += "<tr>" +
+          "<td>" + escapeHtml(row.orderNo) + "</td>" +
+          "<td>" + escapeHtml(row.dateTime) + "</td>" +
+          "<td class=\"num\">" + safeNum(row.totalAmount) + "</td>" +
+          "<td class=\"num\">" + safeNum(row.energyAmount) + "</td>" +
+          "<td class=\"num\">" + safeNum(row.vat) + "</td>" +
+          "<td class=\"num\">" + safeNum(row.demandCharge) + "</td>" +
+          "<td class=\"num\">" + safeNum(row.meterRent) + "</td>" +
+          "<td>" + escapeHtml(row.status) + "</td>" +
+          "</tr>";
+      });
+
+      html += "</tbody></table>";
+      el("currentMonthRechargeTable").innerHTML = html;
+    }
+
 
     function updateCards(data) {
       var balance = data.balance;
@@ -906,6 +1142,7 @@
         renderDailyTable(dailyRows);
         renderMonthlyTable(monthlyRows);
         renderRechargeTable(rechargeRows);
+        renderCurrentMonthRechargeTable(currentMonthRechargeRows);
         renderAllCharts({ dailyRows: dailyRows, monthlyRows: monthlyRows, rechargeRows: rechargeRows });
 
         el("customerSource").textContent = systemType === "unified" ? "Unified API" : "TKDES API";
@@ -1003,6 +1240,7 @@
     function initDashboard() {
       try {
         runSelfTests();
+        initDatePickers();
         setDefaults();
 
         el("loadBtn").addEventListener("click", loadDashboard);
