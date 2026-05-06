@@ -899,6 +899,175 @@
       .slab-pill { width: auto; max-width: 100%; }
     }
 
+  
+    /* Compact modal/table spacing */
+    .modal-body .table-wrap table {
+      table-layout: auto;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .modal-body .table-wrap th,
+    .modal-body .table-wrap td {
+      padding: 8px 10px;
+      white-space: nowrap;
+      width: auto;
+    }
+
+    .modal-body .table-wrap th.num,
+    .modal-body .table-wrap td.num {
+      width: 110px;
+      text-align: right;
+    }
+
+    #slabDetailsBody .table-wrap th:nth-child(1),
+    #slabDetailsBody .table-wrap td:nth-child(1) {
+      width: 130px;
+    }
+
+    #slabDetailsBody .table-wrap th:nth-child(2),
+    #slabDetailsBody .table-wrap td:nth-child(2) {
+      width: 110px;
+    }
+
+    #slabDetailsBody .table-wrap th:nth-child(3),
+    #slabDetailsBody .table-wrap td:nth-child(3),
+    #slabDetailsBody .table-wrap th:nth-child(4),
+    #slabDetailsBody .table-wrap td:nth-child(4),
+    #slabDetailsBody .table-wrap th:nth-child(5),
+    #slabDetailsBody .table-wrap td:nth-child(5) {
+      width: 105px;
+    }
+
+    .recharge-info-row {
+      grid-template-columns: 118px 1fr;
+      gap: 8px;
+      padding: 3px 0;
+    }
+
+    .slab-summary-card {
+      grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+      gap: 10px;
+    }
+
+    .slab-summary-item {
+      padding: 10px;
+    }
+
+    .slab-summary-item strong {
+      font-size: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .modal-body .table-wrap table {
+        min-width: 560px;
+      }
+
+      .recharge-info-row {
+        grid-template-columns: 105px 1fr;
+      }
+    }
+
+  
+    .customer-profile {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 14px;
+    }
+
+    .customer-profile-main,
+    .customer-profile-side {
+      border: 1px solid #d9e7ff;
+      background: linear-gradient(180deg, #ffffff, #f8fbff);
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .customer-name {
+      font-size: 22px;
+      font-weight: 800;
+      color: #102a56;
+      margin-bottom: 8px;
+      line-height: 1.35;
+    }
+
+    .customer-address {
+      color: #475467;
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+
+    .customer-detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .customer-detail-item {
+      border-radius: 12px;
+      background: #f8fbff;
+      border: 1px solid #e1ebfb;
+      padding: 10px 12px;
+    }
+
+    .customer-detail-item span {
+      display: block;
+      font-size: 12px;
+      color: #667085;
+      margin-bottom: 4px;
+    }
+
+    .customer-detail-item strong {
+      display: block;
+      font-size: 14px;
+      color: #182230;
+      word-break: break-word;
+    }
+
+    .customer-profile-side .customer-detail-item + .customer-detail-item {
+      margin-top: 10px;
+    }
+
+    @media (max-width: 900px) {
+      .customer-profile {
+        grid-template-columns: 1fr;
+      }
+    }
+
+  
+    .customer-fields-profile {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 10px;
+    }
+
+    .customer-field-card {
+      border: 1px solid #e1ebfb;
+      background: #f8fbff;
+      border-radius: 14px;
+      padding: 11px 12px;
+      min-height: 70px;
+    }
+
+    .customer-field-card span {
+      display: block;
+      font-size: 12px;
+      color: #667085;
+      margin-bottom: 5px;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+
+    .customer-field-card strong {
+      display: block;
+      font-size: 14px;
+      color: #182230;
+      line-height: 1.5;
+      word-break: break-word;
+      font-weight: 700;
+    }
+
   </style>
 </head>
 
@@ -1037,7 +1206,7 @@
       <div class="card">
         <div class="metric-title" data-i18n="balanceTitle"><span data-i18n="balanceTitle">Current Balance</span></div>
         <div id="balanceValue" class="metric-value">--</div>
-        <div id="balanceSub" class="metric-sub" data-i18n="readingTimeEmpty">Reading time: --</div>
+        <div id="balanceSub" class="metric-sub" data-i18n="readingTimeEmpty">Live balance from DESCO API</div>
       </div>
       
       <div class="card">
@@ -1048,17 +1217,17 @@
 <div class="card">
         <div class="metric-title" data-i18n="lastRecharge"><span data-i18n="lastRecharge">Last Recharge</span></div>
         <div id="lastRechargeValue" class="metric-value">--</div>
-        <div id="lastRechargeSub" class="metric-sub" data-i18n="rechargeTimeEmpty">Recharge time: --</div>
+        <div id="lastRechargeSub" class="metric-sub" data-i18n="rechargeTimeEmpty">Latest successful recharge from history</div>
       </div>
       <div class="card">
         <div class="metric-title" data-i18n="usedThisMonth"><span data-i18n="usedThisMonth">Used This Month</span></div>
         <div id="currentMonthUnit" class="metric-value">--</div>
-        <div id="currentMonthTaka" class="metric-sub" data-i18n="calculatedDaily">Calculated from daily consumption</div>
+        <div id="currentMonthTaka" class="metric-sub" data-i18n="calculatedDaily">Calculated from latest visible daily usage</div>
       </div>
       <div class="card">
         <div class="metric-title" data-i18n="rechargedThisMonth"><span data-i18n="rechargedThisMonth">Recharged This Month</span></div>
         <div id="currentMonthRecharge" class="metric-value">--</div>
-        <div id="currentYearRecharge" class="metric-sub" data-i18n="yearTotalEmpty">Year total: --</div>
+        <div id="currentYearRecharge" class="metric-sub" data-i18n="yearTotalEmpty">Yearly recharge total after loading</div>
       </div>
     </section>
 
@@ -1066,14 +1235,14 @@
       <div class="card">
         <div class="section-title">
           <h2 data-i18n="dailyConsumption"><span data-i18n="dailyConsumption">Daily Consumption</span></h2>
-          <span data-i18n="dailyChartSub">Current month only. Unit/taka are calculated daily values.</span>
+          <span data-i18n="dailyChartSub">Daily unit and cost trend for the selected visible month</span>
         </div>
         <canvas id="dailyChart"></canvas>
       </div>
       <div class="card">
         <div class="section-title">
           <h2 data-i18n="monthlyConsumption"><span data-i18n="monthlyConsumption">Monthly Consumption</span></h2>
-          <span data-i18n="monthlyChartSub">Current month is added from the daily API because the monthly API excludes the ongoing month.</span>
+          <span data-i18n="monthlyChartSub">Monthly consumption summary with the current month calculated from daily data</span>
         </div>
         <canvas id="monthlyChart"></canvas>
       </div>
@@ -1083,14 +1252,14 @@
       <div class="card">
         <div class="section-title">
           <h2 data-i18n="rechargeVsConsumption">Recharge vs Consumption</h2>
-          <span data-i18n="bdtComparison">BDT comparison</span>
+          <span data-i18n="bdtComparison">Compare recharge amount and energy consumption cost</span>
         </div>
         <canvas id="rechargeConsumptionChart"></canvas>
       </div>
       <div class="card">
         <div class="section-title">
           <h2 data-i18n="rechargeHistory">Recharge History</h2>
-          <span data-i18n="retryLoaded">Loaded with async/await retry</span>
+          <span data-i18n="retryLoaded">Recharge entries loaded from recharge history API</span>
         </div>
         <canvas id="rechargeChart"></canvas>
       </div>
@@ -1100,14 +1269,14 @@
       <div class="card">
         <div class="section-title">
           <h2 data-i18n="currentMonthRechargeHistory">Current Month Recharge History</h2>
-          <span data-i18n="currentMonthLineGraph">Current month line graph only</span>
+          <span data-i18n="currentMonthLineGraph">Current month recharge trend by date</span>
         </div>
         <canvas id="currentMonthRechargeChart"></canvas>
       </div>
       <div class="card">
         <div class="section-title">
           <h2 data-i18n="currentMonthRechargeTable">Current Month Recharge Table</h2>
-          <span data-i18n="currentMonthEntriesOnly">Only current month entries</span>
+          <span data-i18n="currentMonthEntriesOnly">Current month recharge list with quick details</span>
         </div>
         <div id="currentMonthRechargeTable" class="table-wrap"></div>
       </div>
@@ -1117,7 +1286,7 @@
       <div class="card">
         <div class="section-title">
           <h2 data-i18n="monthlyMaximumDemandGraphTitle">Monthly Maximum Demand</h2>
-          <span data-i18n="monthlyMaximumDemandGraphSub">Maximum demand line graph for selected months</span>
+          <span data-i18n="monthlyMaximumDemandGraphSub">Maximum demand trend for selected months</span>
         </div>
         <canvas id="monthlyMaximumDemandChart"></canvas>
       </div>
@@ -1127,7 +1296,7 @@
       <div class="card">
         <div class="section-title">
           <h2 data-i18n="customerInfo">Customer Information</h2>
-          <span id="customerSource">--</span>
+          <span data-i18n="customerInfoSub">Account, meter and customer profile from DESCO</span><span id="customerSource" class="d-none">--</span>
         </div>
         <div id="customerTable" class="table-wrap"></div>
       </div>
@@ -1135,7 +1304,7 @@
         <div class="section-title">
           <div>
             <h2 data-i18n="dailyTable">Daily Consumption Table</h2>
-            <span data-i18n="dailyTableSub">Current month only + calculated daily usage</span>
+            <span data-i18n="dailyTableSub">Latest visible month daily unit and cost calculation</span>
           </div>
           <button type="button" id="slabInfoBtn" class="slab-pill slab-neutral" onclick="showSlabDetailsModal()">
             <span data-i18n="slabButtonDefault">Slab Details</span>
@@ -1146,7 +1315,7 @@
       <div class="card">
         <div class="section-title">
           <h2 data-i18n="monthlyTable">Monthly Consumption Table</h2>
-          <span data-i18n="monthlyTableSub">Includes current month from daily calculation</span>
+          <span data-i18n="monthlyTableSub">Monthly units, cost and demand with current month included</span>
         </div>
         <div id="monthlyTable" class="table-wrap"></div>
       </div>
@@ -1154,7 +1323,7 @@
       <div class="card">
         <div class="section-title">
           <h2 data-i18n="monthlyComparisonTitle">Monthly Consumption Comparison Table</h2>
-          <span data-i18n="monthlyComparisonSub">Selected months compared with the same months in the previous year</span>
+          <span data-i18n="monthlyComparisonSub">Selected months compared with the same months from previous year</span>
         </div>
         <div id="monthlyComparisonTable" class="table-wrap"></div>
       </div>
@@ -1162,7 +1331,7 @@
       <div class="card">
         <div class="section-title">
           <h2 data-i18n="rechargeConsumptionComparisonTitle">Recharge-Consumption Comparison Table</h2>
-          <span data-i18n="rechargeConsumptionComparisonSub">Recharge and consumption comparison for selected months</span>
+          <span data-i18n="rechargeConsumptionComparisonSub">Selected month recharge compared with consumption cost</span>
         </div>
         <div id="rechargeConsumptionComparisonTable" class="table-wrap"></div>
       </div>
@@ -1170,21 +1339,18 @@
       <div class="card">
         <div class="section-title">
           <h2 data-i18n="monthlyMaximumDemandTitle">Monthly Maximum Demand Table</h2>
-          <span data-i18n="monthlyMaximumDemandSub">Maximum demand for selected months</span>
+          <span data-i18n="monthlyMaximumDemandSub">Maximum demand values for selected months</span>
         </div>
         <div id="monthlyMaximumDemandTable" class="table-wrap"></div>
       </div>
       <div class="card">
         <div class="section-title">
           <h2 data-i18n="rechargeHistoryTable">Recharge History Table</h2>
-          <span data-i18n="descoMaxRange">DESCO max range: 12 months</span>
+          <span data-i18n="descoMaxRange">Recharge history range is limited to 12 months</span>
         </div>
         <div id="rechargeTable" class="table-wrap"></div>
       </div>
-      <div class="card note">
-        <strong data-i18n="important">Important:</strong>
-        <span data-i18n="noteText">Default date range is last 6 months. Modern Flatpickr date/month pickers are enabled. DESCO recharge history rejects ranges over 12 months, so this dashboard validates with SweetAlert and uses a safe recharge range. A separate current-month recharge line graph and table are also shown. Copy & Recharge copies the account number first, then opens the official eKPay DESCO Prepaid biller page in a new tab.</span>
-      </div>
+      <div class="card note d-none" aria-hidden="true"></div>
     </section>
   </div>
 
@@ -1900,17 +2066,57 @@
 
 
     function renderCustomerTable(customer) {
-      var rows = Object.keys(customer || {}).filter(function(key) {
+      customer = customer || {};
+
+      function prettyCustomerFieldName(key) {
+        var labels = {
+          accountNo: currentLanguage === "bn" ? "অ্যাকাউন্ট নম্বর" : "Account Number",
+          accountNumber: currentLanguage === "bn" ? "অ্যাকাউন্ট নম্বর" : "Account Number",
+          meterNo: currentLanguage === "bn" ? "মিটার নম্বর" : "Meter Number",
+          meterNumber: currentLanguage === "bn" ? "মিটার নম্বর" : "Meter Number",
+          customerName: currentLanguage === "bn" ? "কাস্টমারের নাম" : "Customer Name",
+          name: currentLanguage === "bn" ? "নাম" : "Name",
+          address: currentLanguage === "bn" ? "ঠিকানা" : "Address",
+          mobileNo: currentLanguage === "bn" ? "মোবাইল নম্বর" : "Mobile Number",
+          mobile: currentLanguage === "bn" ? "মোবাইল" : "Mobile",
+          tariff: currentLanguage === "bn" ? "ট্যারিফ" : "Tariff",
+          tariffCategory: currentLanguage === "bn" ? "ট্যারিফ ক্যাটাগরি" : "Tariff Category",
+          customerCategory: currentLanguage === "bn" ? "কাস্টমার ক্যাটাগরি" : "Customer Category",
+          sanctionedLoad: currentLanguage === "bn" ? "অনুমোদিত লোড" : "Sanctioned Load",
+          sanctionLoad: currentLanguage === "bn" ? "অনুমোদিত লোড" : "Sanctioned Load",
+          load: currentLanguage === "bn" ? "লোড" : "Load",
+          balance: currentLanguage === "bn" ? "ব্যালেন্স" : "Balance",
+          remainingBalance: currentLanguage === "bn" ? "বর্তমান ব্যালেন্স" : "Remaining Balance",
+          currentBalance: currentLanguage === "bn" ? "বর্তমান ব্যালেন্স" : "Current Balance"
+        };
+
+        if (labels[key]) return labels[key];
+
+        return String(key)
+          .replace(/_/g, " ")
+          .replace(/([a-z])([A-Z])/g, "$1 $2")
+          .replace(/\b\w/g, function(char) { return char.toUpperCase(); });
+      }
+
+      var rows = Object.keys(customer).filter(function(key) {
         return typeof customer[key] !== "object";
       });
 
-      var html = "<table><thead><tr><th>" + t("tableField") + "</th><th>" + t("tableValue") + "</th></tr></thead><tbody>";
+      var html = '<div class="customer-fields-profile">';
 
       rows.forEach(function(key) {
-        html += "<tr><td>" + escapeHtml(key) + "</td><td>" + escapeHtml(customer[key]) + "</td></tr>";
+        html += '<div class="customer-field-card">' +
+          '<span>' + escapeHtml(prettyCustomerFieldName(key)) + '</span>' +
+          '<strong>' + escapeHtml(customer[key]) + '</strong>' +
+          '</div>';
       });
 
-      html += "</tbody></table>";
+      if (!rows.length) {
+        html += '<div class="customer-field-card"><span>' + escapeHtml(t("customerInfo")) + '</span><strong>' + escapeHtml(t("customerProfileUnknown") || "--") + '</strong></div>';
+      }
+
+      html += '</div>';
+
       el("customerTable").innerHTML = html;
     }
 
@@ -2647,7 +2853,7 @@
           allCalculatedDailyRows: allCalculatedDailyRows, monthlyRows: monthlyRows, rechargeRows: rechargeRows });
         renderMonthlyMaximumDemandChart(monthlyRows, monthFrom, monthTo);
 
-        el("customerSource").textContent = systemType === "unified" ? "Unified API" : "TKDES API";
+        el("customerSource").textContent = "";
 
         lastExport = {
           urls: urls,
@@ -2824,12 +3030,12 @@
         exportJson: "Export JSON",
         copyRecharge: "Copy & Recharge",
                 calculatedBalanceTitle: "Calculated Balance",
-        calculatedBalanceSub: "Energy recharge minus consumption",
+        calculatedBalanceSub: "Base balance + energy recharge - daily consumption",
         calculatedBalanceSelectedRange: "Selected range calculation",
         totalEnergyRecharge: "Total energy recharge",
         totalConsumption: "Total consumption",
         monthlyMaximumDemandGraphTitle: "Monthly Maximum Demand",
-        monthlyMaximumDemandGraphSub: "Maximum demand line graph for selected months",
+        monthlyMaximumDemandGraphSub: "Maximum demand trend for selected months",
         baseBalanceDate: "Base Balance Date",
         baseBalanceAmount: "Base Balance",
         calculatedBalanceTitle: "Calculated Balance",
@@ -2882,16 +3088,26 @@
         currentMonthRechargeHistory: "Current Month Recharge History",
         currentMonthRechargeTable: "Current Month Recharge Table",
         customerInfo: "Customer Information",
+        customerInfoSub: "Account, meter and customer profile from DESCO",
+        customerProfileName: "Customer Name",
+        customerProfileAccount: "Account Number",
+        customerProfileMeter: "Meter Number",
+        customerProfileAddress: "Address",
+        customerProfileMobile: "Mobile Number",
+        customerProfileTariff: "Tariff / Category",
+        customerProfileSanctionLoad: "Sanctioned Load",
+        customerProfileBalance: "Current Balance",
+        customerProfileUnknown: "Not available",
         dailyTable: "Daily Consumption Table",
-        dailyTableSub: "Selected visible month + calculated daily usage",
+        dailyTableSub: "Latest visible month daily unit and cost calculation",
         monthlyTable: "Monthly Consumption Table",
         rechargeHistoryTable: "Recharge History Table",
                 monthlyComparisonTitle: "Monthly Consumption Comparison Table",
-        monthlyComparisonSub: "Selected months compared with the same months in the previous year",
+        monthlyComparisonSub: "Selected months compared with the same months from previous year",
         rechargeConsumptionComparisonTitle: "Recharge-Consumption Comparison Table",
-        rechargeConsumptionComparisonSub: "Recharge and consumption comparison for selected months",
+        rechargeConsumptionComparisonSub: "Selected month recharge compared with consumption cost",
         monthlyMaximumDemandTitle: "Monthly Maximum Demand Table",
-        monthlyMaximumDemandSub: "Maximum demand for selected months",
+        monthlyMaximumDemandSub: "Maximum demand values for selected months",
         tablePrevYearMonth: "Month in Previous Year",
         tablePrevYearTaka: "Consumed Taka in Previous Year",
         tablePrevYearUnit: "Consumed Unit in Previous Year",
@@ -2945,7 +3161,22 @@
         slabSixth: "Sixth Slab",
         slabDomestic: "LT-A Domestic",
         slabExplainText: "The slab calculation is progressive. Example: if monthly usage is 75 units, first 50 units are charged at the lifeline rate, and the next 25 units are charged at the next slab rate. This is an estimated energy-charge calculation only.",
-        someApiFailed: "Some API failed. Check console for details."
+                dailyChartSub: "Daily unit and cost trend for the selected visible month",
+        monthlyChartSub: "Monthly consumption summary with the current month calculated from daily data",
+        bdtComparison: "Compare recharge amount and energy consumption cost",
+        retryLoaded: "Recharge entries loaded from recharge history API",
+        currentMonthLineGraph: "Current month recharge trend by date",
+        currentMonthEntriesOnly: "Current month recharge list with quick details",
+        monthlyTableSub: "Monthly units, cost and demand with current month included",
+        descoMaxRange: "Recharge history range is limited to 12 months",
+        rangeNote: "Default range is last 6 months. You can change the dates before loading.",
+        quickTipsText: "Use Load Data after changing account, meter, dates or base balance.",
+        controlSubtitle: "Enter account and meter details, select dates, then load the dashboard.",
+        readingTimeEmpty: "Live balance from DESCO API",
+        rechargeTimeEmpty: "Latest successful recharge from history",
+        calculatedDaily: "Calculated from latest visible daily usage",
+        yearTotalEmpty: "Yearly recharge total after loading",
+someApiFailed: "Some API failed. Check console for details."
       },
       bn: {
         heroBadge: "DESCO স্মার্ট ইউটিলিটি ড্যাশবোর্ড",
@@ -2963,12 +3194,12 @@
         exportJson: "JSON এক্সপোর্ট",
         copyRecharge: "কপি & রিচার্জ",
                 calculatedBalanceTitle: "হিসাব করা ব্যালেন্স",
-        calculatedBalanceSub: "এনার্জি রিচার্জ থেকে ব্যবহার বাদ",
+        calculatedBalanceSub: "বেস ব্যালেন্স + এনার্জি রিচার্জ - দৈনিক ব্যবহার",
         calculatedBalanceSelectedRange: "নির্বাচিত রেঞ্জের হিসাব",
         totalEnergyRecharge: "মোট এনার্জি রিচার্জ",
         totalConsumption: "মোট ব্যবহার",
         monthlyMaximumDemandGraphTitle: "মাসিক সর্বোচ্চ ডিমান্ড",
-        monthlyMaximumDemandGraphSub: "নির্বাচিত মাসগুলোর সর্বোচ্চ ডিমান্ড লাইন গ্রাফ",
+        monthlyMaximumDemandGraphSub: "নির্বাচিত মাসগুলোর সর্বোচ্চ ডিমান্ড ট্রেন্ড",
         baseBalanceDate: "বেস ব্যালেন্স তারিখ",
         baseBalanceAmount: "বেস ব্যালেন্স",
         calculatedBalanceTitle: "হিসাব করা ব্যালেন্স",
@@ -3014,8 +3245,18 @@
         currentMonthRechargeHistory: "চলতি মাসের রিচার্জ হিস্টোরি",
         currentMonthRechargeTable: "চলতি মাসের রিচার্জ টেবিল",
         customerInfo: "কাস্টমার তথ্য",
+        customerInfoSub: "DESCO থেকে অ্যাকাউন্ট, মিটার ও কাস্টমার প্রোফাইল",
+        customerProfileName: "কাস্টমারের নাম",
+        customerProfileAccount: "অ্যাকাউন্ট নম্বর",
+        customerProfileMeter: "মিটার নম্বর",
+        customerProfileAddress: "ঠিকানা",
+        customerProfileMobile: "মোবাইল নম্বর",
+        customerProfileTariff: "ট্যারিফ / ক্যাটাগরি",
+        customerProfileSanctionLoad: "অনুমোদিত লোড",
+        customerProfileBalance: "বর্তমান ব্যালেন্স",
+        customerProfileUnknown: "পাওয়া যায়নি",
         dailyTable: "দৈনিক ব্যবহার টেবিল",
-        dailyTableSub: "নির্বাচিত দৃশ্যমান মাস + হিসাব করা দৈনিক ব্যবহার",
+        dailyTableSub: "সর্বশেষ দৃশ্যমান মাসের দৈনিক ইউনিট ও খরচ হিসাব",
         monthlyTable: "মাসিক ব্যবহার টেবিল",
         rechargeHistoryTable: "রিচার্জ হিস্টোরি টেবিল",
 noCurrentMonthRecharge: "চলতি মাসে কোনো রিচার্জ পাওয়া যায়নি।",
@@ -3026,11 +3267,11 @@ noCurrentMonthRecharge: "চলতি মাসে কোনো রিচার�
         rechargeRows: "রিচার্জ সারি: ",
         rechargeRangeUsed: "রিচার্জ তারিখ রেঞ্জ: ",
                         monthlyComparisonTitle: "মাসিক ব্যবহার তুলনা টেবিল",
-        monthlyComparisonSub: "নির্বাচিত মাসগুলো আগের বছরের একই মাসের সাথে তুলনা করা হয়েছে",
+        monthlyComparisonSub: "নির্বাচিত মাসগুলো আগের বছরের একই মাসের সাথে তুলনা",
         rechargeConsumptionComparisonTitle: "রিচার্জ-ব্যবহার তুলনা টেবিল",
-        rechargeConsumptionComparisonSub: "নির্বাচিত মাসগুলোর রিচার্জ ও ব্যবহার তুলনা",
+        rechargeConsumptionComparisonSub: "নির্বাচিত মাসের রিচার্জ ও ব্যবহার খরচের তুলনা",
         monthlyMaximumDemandTitle: "মাসিক সর্বোচ্চ ডিমান্ড টেবিল",
-        monthlyMaximumDemandSub: "নির্বাচিত মাসগুলোর সর্বোচ্চ ডিমান্ড",
+        monthlyMaximumDemandSub: "নির্বাচিত মাসগুলোর সর্বোচ্চ ডিমান্ড ভ্যালু",
         tablePrevYearMonth: "আগের বছরের মাস",
         tablePrevYearTaka: "আগের বছরের ব্যবহৃত টাকা",
         tablePrevYearUnit: "আগের বছরের ব্যবহৃত ইউনিট",
@@ -3084,7 +3325,22 @@ noCurrentMonthRecharge: "চলতি মাসে কোনো রিচার�
         slabSixth: "ষষ্ঠ ধাপ",
         slabDomestic: "এলটি-এ: আবাসিক",
         slabExplainText: "স্ল্যাব হিসাব প্রগ্রেসিভভাবে হয়। যেমন: মাসে ৭৫ ইউনিট ব্যবহার হলে প্রথম ৫০ ইউনিট লাইফলাইন রেটে এবং পরের ২৫ ইউনিট পরবর্তী স্ল্যাব রেটে হিসাব হয়। এটি শুধুমাত্র আনুমানিক এনার্জি চার্জের হিসাব।",
-        someApiFailed: "কিছু API ব্যর্থ হয়েছে। বিস্তারিত Console-এ দেখুন।"
+                dailyChartSub: "নির্বাচিত দৃশ্যমান মাসের দৈনিক ইউনিট ও খরচের ট্রেন্ড",
+        monthlyChartSub: "দৈনিক ডাটা থেকে হিসাব করা চলতি মাসসহ মাসিক ব্যবহার সারাংশ",
+        bdtComparison: "রিচার্জ টাকা ও এনার্জি ব্যবহারের খরচ তুলনা",
+        retryLoaded: "রিচার্জ হিস্টোরি API থেকে রিচার্জ এন্ট্রি লোড করা হয়েছে",
+        currentMonthLineGraph: "তারিখ অনুযায়ী চলতি মাসের রিচার্জ ট্রেন্ড",
+        currentMonthEntriesOnly: "চলতি মাসের রিচার্জ তালিকা ও দ্রুত বিস্তারিত",
+        monthlyTableSub: "চলতি মাসসহ মাসিক ইউনিট, খরচ ও ডিমান্ড",
+        descoMaxRange: "রিচার্জ হিস্টোরির রেঞ্জ সর্বোচ্চ ১২ মাস",
+        rangeNote: "ডিফল্ট রেঞ্জ শেষ ৬ মাস। লোড করার আগে তারিখ পরিবর্তন করতে পারবেন।",
+        quickTipsText: "অ্যাকাউন্ট, মিটার, তারিখ বা বেস ব্যালেন্স পরিবর্তন করলে Load Data চাপুন।",
+        controlSubtitle: "অ্যাকাউন্ট ও মিটার তথ্য দিন, তারিখ নির্বাচন করুন, তারপর ড্যাশবোর্ড লোড করুন।",
+        readingTimeEmpty: "DESCO API থেকে লাইভ ব্যালেন্স",
+        rechargeTimeEmpty: "হিস্টোরি থেকে সর্বশেষ সফল রিচার্জ",
+        calculatedDaily: "সর্বশেষ দৃশ্যমান দৈনিক ব্যবহার থেকে হিসাব",
+        yearTotalEmpty: "লোড করার পর বছরের মোট রিচার্জ",
+someApiFailed: "কিছু API ব্যর্থ হয়েছে। বিস্তারিত Console-এ দেখুন।"
       }
     };
 
