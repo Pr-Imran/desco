@@ -1068,6 +1068,11 @@
       font-weight: 700;
     }
 
+  
+    .dashboard-data-section.d-none {
+      display: none !important;
+    }
+
   </style>
 </head>
 
@@ -1181,7 +1186,9 @@
 
       <div class="action-toolbar">
         <button id="loadBtn" type="button" class="btn btn-primary btn-action-main" data-i18n="loadData" data-i18n="loadData">Load Data</button>
+        <!-- FUTURE EXPORT JSON BUTTON - uncomment if needed:
         <button class="btn btn-outline-primary btn-action" id="exportBtn" type="button" data-i18n="exportJson" data-i18n="exportJson">Export JSON</button>
+        -->
         <button class="btn btn-outline-secondary btn-action" id="resetDatesBtn" type="button">Reset Dates</button>
         <button class="btn btn-success btn-action recharge-btn" id="rechargeBtn" type="button" data-i18n="copyRecharge" data-i18n="copyRecharge">Copy & Recharge</button>
       </div>
@@ -1190,7 +1197,7 @@
         ডিফল্ট রেঞ্জ: শেষ ৬ মাস। ১ বছরের বেশি রেঞ্জ সিলেক্ট করলে সিস্টেম ব্লক করবে।
       </div>
 
-      <div id="status" class="status">Ready. Dates will auto-select after page load.</div>
+      <div id="status" class="status d-none"></div>
       <div id="loadProgressWrap" class="progress-wrap d-none">
         <div class="progress-label">
           <span id="loadProgressText">Loading...</span>
@@ -1202,7 +1209,7 @@
       </div>
     </section>
 
-    <section class="cards">
+    <section class="cards dashboard-data-section d-none">
       <div class="card">
         <div class="metric-title" data-i18n="balanceTitle"><span data-i18n="balanceTitle">Current Balance</span></div>
         <div id="balanceValue" class="metric-value">--</div>
@@ -1231,7 +1238,7 @@
       </div>
     </section>
 
-    <section class="grid-2">
+    <section class="grid-2 dashboard-data-section d-none">
       <div class="card">
         <div class="section-title">
           <h2 data-i18n="dailyConsumption"><span data-i18n="dailyConsumption">Daily Consumption</span></h2>
@@ -1248,7 +1255,7 @@
       </div>
     </section>
 
-    <section class="grid-2">
+    <section class="grid-2 dashboard-data-section d-none">
       <div class="card">
         <div class="section-title">
           <h2 data-i18n="rechargeVsConsumption">Recharge vs Consumption</h2>
@@ -1265,7 +1272,7 @@
       </div>
     </section>
 
-    <section class="grid-2">
+    <section class="grid-2 dashboard-data-section d-none">
       <div class="card">
         <div class="section-title">
           <h2 data-i18n="currentMonthRechargeHistory">Current Month Recharge History</h2>
@@ -1282,7 +1289,7 @@
       </div>
     </section>
 
-        <section class="grid-1">
+        <section class="grid-1 dashboard-data-section d-none">
       <div class="card">
         <div class="section-title">
           <h2 data-i18n="monthlyMaximumDemandGraphTitle">Monthly Maximum Demand</h2>
@@ -1292,7 +1299,7 @@
       </div>
     </section>
 
-<section class="grid-1">
+<section class="grid-1 dashboard-data-section d-none">
       <div class="card">
         <div class="section-title">
           <h2 data-i18n="customerInfo">Customer Information</h2>
@@ -1306,7 +1313,7 @@
             <h2 data-i18n="dailyTable">Daily Consumption Table</h2>
             <span data-i18n="dailyTableSub">Latest visible month daily unit and cost calculation</span>
           </div>
-          <button type="button" id="slabInfoBtn" class="slab-pill slab-neutral" onclick="showSlabDetailsModal()">
+          <button type="button" id="slabInfoBtn" class="slab-pill slab-neutral d-none" onclick="showSlabDetailsModal()">
             <span data-i18n="slabButtonDefault">Slab Details</span>
           </button>
         </div>
@@ -2429,11 +2436,37 @@
           btn.innerHTML = original;
           btn.removeAttribute("data-original-html");
           applyLanguage(currentLanguage);
-        updateSlabButton(0);
+        // Slab button stays hidden until dashboard data is loaded.
         }
       }
     }
 
+
+
+    function hideDashboardDataSections() {
+      hideSlabButton();
+
+      document.querySelectorAll(".dashboard-data-section").forEach(function(section) {
+        section.classList.add("d-none");
+      });
+
+      var status = el("status");
+      if (status) {
+        status.classList.add("d-none");
+        status.textContent = "";
+        status.removeAttribute("data-status-key");
+      }
+    }
+
+    function showDashboardDataSections() {
+      document.querySelectorAll(".dashboard-data-section").forEach(function(section) {
+        section.classList.remove("d-none");
+      });
+
+      if (lastExport && lastExport.dailyRows && lastExport.dailyRows.length) {
+        updateSlabButton(getLoadedVisibleMonthTotalUnit());
+      }
+    }
 
     function setProgress(percent, message) {
       var status = el("status");
@@ -2463,6 +2496,7 @@
     }
 
     function showProgressMode() {
+      hideDashboardDataSections();
       var status = el("status");
       if (status) {
         status.classList.add("d-none");
@@ -2587,14 +2621,32 @@
       return getMonthTotalUnitFromRows(lastExport.dailyRows, monthValue);
     }
 
+
+    function hideSlabButton() {
+      var btn = el("slabInfoBtn");
+      if (btn) btn.classList.add("d-none");
+    }
+
+    function showSlabButton() {
+      var btn = el("slabInfoBtn");
+      if (btn) btn.classList.remove("d-none");
+    }
+
     function updateSlabButton(totalUnit) {
       var btn = el("slabInfoBtn");
       if (!btn) return;
 
+      var hasLoadedDailyRows = !!(lastExport && lastExport.dailyRows && lastExport.dailyRows.length);
       var unitValue = num(totalUnit);
 
-      if ((!Number.isFinite(unitValue) || unitValue === 0) && lastExport && lastExport.dailyRows && lastExport.dailyRows.length) {
+      if ((!Number.isFinite(unitValue) || unitValue === 0) && hasLoadedDailyRows) {
         unitValue = getLoadedVisibleMonthTotalUnit();
+      }
+
+      if (!hasLoadedDailyRows) {
+        latestSlabState = calculateSlabDetails(0);
+        btn.className = "slab-pill slab-neutral d-none";
+        return;
       }
 
       latestSlabState = calculateSlabDetails(unitValue);
@@ -2609,6 +2661,7 @@
       }
 
       btn.innerHTML = '<span>' + escapeHtml(label) + '</span>';
+      showSlabButton();
     }
 
     function showSlabDetailsModal() {
@@ -2702,6 +2755,7 @@
       }
 
       setLoadButtonLoading(true);
+      hideDashboardDataSections();
 
       var calculationDailyFrom = dailyFrom;
       if (baseBalanceDate && baseBalanceDate < calculationDailyFrom) {
@@ -2886,6 +2940,8 @@
             status.classList.add("d-none");
             status.removeAttribute("data-status-key");
           }
+          updateSlabButton(getLoadedVisibleMonthTotalUnit());
+          showDashboardDataSections();
           showLoadCompletedSwal();
         }, 350);
       } catch (err) {
@@ -3438,13 +3494,15 @@ someApiFailed: "কিছু API ব্যর্থ হয়েছে। বিস
               rerenderLoadedTablesForLanguage();
             }
             updateSlabButton(latestSlabState ? latestSlabState.totalUnit : 0);
-            setTranslatedStatus("readyStatus", false);
+            hideDashboardDataSections();
           });
         }
 
         var loadBtn = el("loadBtn");
         if (loadBtn) loadBtn.addEventListener("click", loadDashboard);
 
+        // Export JSON button is currently commented out in HTML.
+        // Uncomment the button above to enable this again.
         var exportBtn = el("exportBtn");
         if (exportBtn) exportBtn.addEventListener("click", exportJson);
 
