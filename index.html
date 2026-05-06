@@ -1547,9 +1547,17 @@
       window.monthToPicker = flatpickr("#monthTo", monthConfig);
     }
 
-    function setStatus(text, isError) {
-      el("status").textContent = text;
-      el("status").className = "status" + (isError ? " error" : "");
+    function setStatus(message, isError) {
+      var status = el("status");
+
+      if (!message) {
+        status.textContent = "";
+        status.className = "status d-none";
+        return;
+      }
+
+      status.textContent = message;
+      status.className = isError ? "status error" : "status";
     }
 
     function num(value) {
@@ -3109,8 +3117,8 @@
         rechargedThisMonth: "Recharged This Month",
         dailyConsumption: "Daily Consumption",
         monthlyConsumption: "Monthly Consumption",
-        readyStatus: "Ready. Default range selected: last 6 months. Click Load Data.",
-        initialStatus: "Ready. Dates will auto-select after page load.",
+        readyStatus: "",
+        initialStatus: "",
         accountMissingTitle: "Account number missing",
         accountMissingText: "Please enter an account number before opening the recharge page.",
         copiedTitle: "Account number copied",
@@ -3273,8 +3281,8 @@ someApiFailed: "Some API failed. Check console for details."
         rechargedThisMonth: "চলতি মাসে রিচার্জ",
         dailyConsumption: "দৈনিক ব্যবহার",
         monthlyConsumption: "মাসিক ব্যবহার",
-        readyStatus: "প্রস্তুত। ডিফল্টভাবে শেষ ৬ মাসের রেঞ্জ সিলেক্ট আছে। ডাটা দেখতে ডাটা লোড করুন বাটনে ক্লিক করুন।",
-        initialStatus: "প্রস্তুত আছে। পেজ লোড হলে তারিখ স্বয়ংক্রিয়ভাবে সিলেক্ট হবে।",
+        readyStatus: "",
+        initialStatus: "",
         accountMissingTitle: "অ্যাকাউন্ট নম্বর পাওয়া যায়নি",
         accountMissingText: "রিচার্জ পেজ খোলার আগে একটি অ্যাকাউন্ট নম্বর দিন।",
         copiedTitle: "অ্যাকাউন্ট নম্বর কপি হয়েছে",
@@ -3422,14 +3430,32 @@ someApiFailed: "কিছু API ব্যর্থ হয়েছে। বিস
 
       var statusEl = el("status");
       if (statusEl && statusEl.getAttribute("data-status-key")) {
-        statusEl.textContent = t(statusEl.getAttribute("data-status-key"));
+        var statusMessage = t(statusEl.getAttribute("data-status-key"));
+        statusEl.textContent = statusMessage || "";
+        if (!statusMessage) {
+          statusEl.classList.add("d-none");
+        }
       }
     }
 
     function setTranslatedStatus(key, isError) {
       var statusEl = el("status");
-      if (statusEl) statusEl.setAttribute("data-status-key", key);
-      setStatus(t(key), isError);
+      var message = t(key);
+
+      if (!message) {
+        if (statusEl) {
+          statusEl.textContent = "";
+          statusEl.className = "status d-none";
+          statusEl.removeAttribute("data-status-key");
+        }
+        return;
+      }
+
+      if (statusEl) {
+        statusEl.setAttribute("data-status-key", key);
+      }
+
+      setStatus(message, isError);
     }
 
 
@@ -3512,7 +3538,7 @@ someApiFailed: "কিছু API ব্যর্থ হয়েছে। বিস
         var resetBtn = el("resetDatesBtn");
         if (resetBtn) resetBtn.addEventListener("click", setDefaults);
 
-        setTranslatedStatus("readyStatus", false);
+        hideDashboardDataSections();
       } catch (err) {
         console.error(err);
         var statusEl = document.getElementById("status");
