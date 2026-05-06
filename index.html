@@ -748,6 +748,157 @@
       font-size: 13px;
     }
 
+  
+    .progress-wrap {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 14px;
+      background: #f8fbff;
+      border: 1px solid #d9e7ff;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #344054;
+    }
+
+    .modern-progress {
+      height: 12px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: #e7eefb;
+    }
+
+    .modern-progress .progress-bar {
+      border-radius: 999px;
+    }
+
+  
+    .slab-pill {
+      border: none;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #fff;
+      min-height: 32px;
+      line-height: 1;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+    }
+
+    .slab-pill:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.03);
+    }
+
+    .slab-neutral {
+      background: linear-gradient(135deg, #64748b, #334155);
+      box-shadow: 0 0 0 3px rgba(100, 116, 139, .10), 0 0 18px rgba(100, 116, 139, .28);
+    }
+
+    .slab-lifeline {
+      background: linear-gradient(135deg, #16a34a, #22c55e);
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, .14), 0 0 18px rgba(34, 197, 94, .55);
+    }
+
+    .slab-low {
+      background: linear-gradient(135deg, #2563eb, #60a5fa);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, .14), 0 0 18px rgba(37, 99, 235, .52);
+    }
+
+    .slab-mid {
+      background: linear-gradient(135deg, #7c3aed, #c084fc);
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, .14), 0 0 18px rgba(124, 58, 237, .52);
+    }
+
+    .slab-high {
+      background: linear-gradient(135deg, #ea580c, #f59e0b);
+      box-shadow: 0 0 0 3px rgba(234, 88, 12, .14), 0 0 18px rgba(234, 88, 12, .56);
+    }
+
+    .slab-danger {
+      background: linear-gradient(135deg, #dc2626, #ef4444);
+      box-shadow: 0 0 0 3px rgba(220, 38, 38, .16), 0 0 20px rgba(220, 38, 38, .62);
+      animation: slabPulse 1.6s infinite;
+    }
+
+    @keyframes slabPulse {
+      0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, .36), 0 0 24px rgba(220, 38, 38, .48); }
+      70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0), 0 0 30px rgba(220, 38, 38, .62); }
+      100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0), 0 0 24px rgba(220, 38, 38, .48); }
+    }
+
+    .slab-modal-content {
+      border: none;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 20px 80px rgba(15, 23, 42, .35);
+    }
+
+    .slab-modal-header {
+      background: linear-gradient(135deg, #0b3d91, #1463ff);
+      color: #fff;
+      border-bottom: none;
+    }
+
+    .slab-summary-card {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .slab-summary-item {
+      border: 1px solid #d9e7ff;
+      background: #f8fbff;
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .slab-summary-item span {
+      display: block;
+      font-size: 12px;
+      color: #667085;
+      margin-bottom: 4px;
+    }
+
+    .slab-summary-item strong {
+      display: block;
+      font-size: 18px;
+      color: #102a56;
+    }
+
+    .slab-explain {
+      border-radius: 14px;
+      padding: 12px 14px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      color: #7c2d12;
+      font-size: 13px;
+      line-height: 1.7;
+      margin-top: 14px;
+    }
+
+    .slab-current-row {
+      background: #fff7ed !important;
+      font-weight: 800;
+    }
+
+    @media (max-width: 768px) {
+      .slab-pill { width: auto; max-width: 100%; }
+    }
+
   </style>
 </head>
 
@@ -870,7 +1021,16 @@
         ডিফল্ট রেঞ্জ: শেষ ৬ মাস। ১ বছরের বেশি রেঞ্জ সিলেক্ট করলে সিস্টেম ব্লক করবে।
       </div>
 
-      <div id="status" class="status">প্রস্তুত আছে। পেজ লোড হলে তারিখ স্বয়ংক্রিয়ভাবে সিলেক্ট হবে এবং আপনি সুন্দর date picker দেখতে পাবেন।</div>
+      <div id="status" class="status">Ready. Dates will auto-select after page load.</div>
+      <div id="loadProgressWrap" class="progress-wrap d-none">
+        <div class="progress-label">
+          <span id="loadProgressText">Loading...</span>
+          <span id="loadProgressPercent">0%</span>
+        </div>
+        <div class="progress modern-progress" role="progressbar" aria-label="Loading progress" aria-valuemin="0" aria-valuemax="100">
+          <div id="loadProgressBar" class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%"></div>
+        </div>
+      </div>
     </section>
 
     <section class="cards">
@@ -973,8 +1133,13 @@
       </div>
       <div class="card">
         <div class="section-title">
-          <h2 data-i18n="dailyTable">Daily Consumption Table</h2>
-          <span data-i18n="dailyTableSub">Current month only + calculated daily usage</span>
+          <div>
+            <h2 data-i18n="dailyTable">Daily Consumption Table</h2>
+            <span data-i18n="dailyTableSub">Current month only + calculated daily usage</span>
+          </div>
+          <button type="button" id="slabInfoBtn" class="slab-pill slab-neutral" onclick="showSlabDetailsModal()">
+            <span data-i18n="slabButtonDefault">Slab Details</span>
+          </button>
         </div>
         <div id="dailyTable" class="table-wrap"></div>
       </div>
@@ -1282,7 +1447,7 @@
 
       for (var attempt = 1; attempt <= retries; attempt++) {
         try {
-          setStatus(label + ": attempt " + attempt + "/" + retries + "...");
+          setProgress(20, currentLanguage === "bn" ? "API ডাটা লোড হচ্ছে..." : "Loading API data...");
           var parsed = await fetchJson(url);
           var desc = parsed && typeof parsed === "object" ? String(parsed.desc || "") : "";
           var isRateLimited = desc.toLowerCase().indexOf("ratelimiter") >= 0 || desc.toLowerCase().indexOf("rate limit") >= 0;
@@ -1297,7 +1462,7 @@
           lastError = err;
           if (attempt === retries) break;
           var delay = baseDelay * attempt;
-          setStatus(label + ": " + err.message + "\nRetrying in " + Math.round(delay / 1000) + " sec...");
+          setProgress(25, currentLanguage === "bn" ? "আবার চেষ্টা করা হচ্ছে..." : "Retrying request...");
           await sleep(delay);
         }
       }
@@ -1424,8 +1589,17 @@
     }
 
     function getCurrentMonthDailyRows(dailyRows) {
-      var currentMonth = toMonthInputValue(new Date());
-      return dailyRows.filter(function(row) { return row.date && row.date.indexOf(currentMonth) === 0; });
+      if (!dailyRows || !dailyRows.length) return [];
+
+      var latestDate = dailyRows.reduce(function(maxDate, row) {
+        var d = row && row.date ? String(row.date) : "";
+        return d > maxDate ? d : maxDate;
+      }, "");
+
+      var targetMonth = latestDate ? latestDate.slice(0, 7) : toMonthInputValue(new Date());
+      return dailyRows.filter(function(row) {
+        return row.date && String(row.date).indexOf(targetMonth) === 0;
+      });
     }
 
     function mergeCurrentMonthFromDaily(monthlyRows, dailyRows, today) {
@@ -2049,9 +2223,251 @@
           btn.innerHTML = original;
           btn.removeAttribute("data-original-html");
           applyLanguage(currentLanguage);
+        updateSlabButton(0);
         }
       }
     }
+
+
+    function setProgress(percent, message) {
+      var status = el("status");
+      if (status) status.classList.add("d-none");
+
+      var wrap = el("loadProgressWrap");
+      var bar = el("loadProgressBar");
+      var textNode = el("loadProgressText");
+      var percentNode = el("loadProgressPercent");
+
+      percent = Math.max(0, Math.min(100, Math.round(percent)));
+
+      if (wrap) wrap.classList.remove("d-none");
+      if (bar) bar.style.width = percent + "%";
+      if (textNode) textNode.textContent = message || (currentLanguage === "bn" ? "লোড হচ্ছে..." : "Loading...");
+      if (percentNode) percentNode.textContent = percent + "%";
+    }
+
+    function hideProgress() {
+      var wrap = el("loadProgressWrap");
+      var bar = el("loadProgressBar");
+      var percentNode = el("loadProgressPercent");
+
+      if (wrap) wrap.classList.add("d-none");
+      if (bar) bar.style.width = "0%";
+      if (percentNode) percentNode.textContent = "0%";
+    }
+
+    function showProgressMode() {
+      var status = el("status");
+      if (status) {
+        status.classList.add("d-none");
+      }
+      setProgress(5, currentLanguage === "bn" ? "ডাটা লোড শুরু হচ্ছে..." : "Starting data load...");
+    }
+
+    function showStatusMode() {
+      var status = el("status");
+      if (status) {
+        status.classList.remove("d-none");
+      }
+      hideProgress();
+    }
+
+    function showLoadCompletedSwal() {
+      Swal.fire({
+        icon: "success",
+        title: currentLanguage === "bn" ? "লোড সম্পন্ন হয়েছে" : "Load completed",
+        text: currentLanguage === "bn"
+          ? "ড্যাশবোর্ড ডাটা সফলভাবে লোড হয়েছে।"
+          : "Dashboard data loaded successfully.",
+        confirmButtonText: currentLanguage === "bn" ? "ঠিক আছে" : "OK"
+      });
+    }
+
+
+
+    var latestSlabState = {
+      totalUnit: 0,
+      calculationRows: [],
+      currentSlab: null,
+      estimatedCost: 0
+    };
+
+    var domesticSlabs = [
+      { key: "slabLifeline", from: 0, to: 50, rate: 4.63, className: "slab-lifeline" },
+      { key: "slabFirst", from: 51, to: 75, rate: 5.26, className: "slab-low" },
+      { key: "slabSecond", from: 76, to: 200, rate: 7.20, className: "slab-mid" },
+      { key: "slabThird", from: 201, to: 300, rate: 7.59, className: "slab-mid" },
+      { key: "slabFourth", from: 301, to: 400, rate: 8.02, className: "slab-high" },
+      { key: "slabFifth", from: 401, to: 600, rate: 12.67, className: "slab-danger" },
+      { key: "slabSixth", from: 601, to: Infinity, rate: 14.61, className: "slab-danger" }
+    ];
+
+    function getSlabRangeText(slab) {
+      if (slab.to === Infinity) return slab.from + "+";
+      return slab.from + "–" + slab.to;
+    }
+
+    function calculateSlabDetails(totalUnit) {
+      var unit = num(totalUnit);
+      if (!Number.isFinite(unit) || unit < 0) unit = 0;
+
+      var rows = [];
+      var estimatedCost = 0;
+      var currentSlab = domesticSlabs[0];
+
+      domesticSlabs.forEach(function(slab) {
+        var usedInSlab = 0;
+
+        if (unit >= slab.from) {
+          if (slab.to === Infinity) {
+            usedInSlab = Math.max(0, unit - slab.from + 1);
+          } else {
+            usedInSlab = Math.min(Math.max(0, unit - slab.from + 1), slab.to - slab.from + 1);
+          }
+        }
+
+        var amount = usedInSlab * slab.rate;
+        estimatedCost += amount;
+
+        if (unit >= slab.from && unit <= slab.to) {
+          currentSlab = slab;
+        }
+
+        rows.push({
+          key: slab.key,
+          range: getSlabRangeText(slab),
+          rate: slab.rate,
+          usedUnit: usedInSlab,
+          amount: amount,
+          isCurrent: unit >= slab.from && unit <= slab.to,
+          className: slab.className
+        });
+      });
+
+      return {
+        totalUnit: unit,
+        currentSlab: currentSlab,
+        calculationRows: rows,
+        estimatedCost: estimatedCost
+      };
+    }
+
+
+    function getLatestVisibleMonthFromRows(rows) {
+      if (!rows || !rows.length) return toMonthInputValue(new Date());
+
+      var latestDate = rows.reduce(function(maxDate, row) {
+        var d = row && row.date ? String(row.date) : "";
+        return d > maxDate ? d : maxDate;
+      }, "");
+
+      return latestDate ? latestDate.slice(0, 7) : toMonthInputValue(new Date());
+    }
+
+    function getMonthTotalUnitFromRows(rows, monthValue) {
+      return (rows || []).filter(function(row) {
+        return row.date && String(row.date).indexOf(monthValue) === 0;
+      }).reduce(function(sum, row) {
+        return sum + (Number.isFinite(row.dailyUnit) ? row.dailyUnit : 0);
+      }, 0);
+    }
+
+    function getLoadedVisibleMonthTotalUnit() {
+      if (!lastExport || !lastExport.dailyRows || !lastExport.dailyRows.length) {
+        return 0;
+      }
+
+      var monthValue = getLatestVisibleMonthFromRows(lastExport.dailyRows);
+      return getMonthTotalUnitFromRows(lastExport.dailyRows, monthValue);
+    }
+
+    function updateSlabButton(totalUnit) {
+      var btn = el("slabInfoBtn");
+      if (!btn) return;
+
+      var unitValue = num(totalUnit);
+
+      if ((!Number.isFinite(unitValue) || unitValue === 0) && lastExport && lastExport.dailyRows && lastExport.dailyRows.length) {
+        unitValue = getLoadedVisibleMonthTotalUnit();
+      }
+
+      latestSlabState = calculateSlabDetails(unitValue);
+
+      var current = latestSlabState.currentSlab || domesticSlabs[0];
+      btn.className = "slab-pill " + (current.className || "slab-neutral");
+      btn.title = t("slabModalTitle");
+
+      var label = t(current.key);
+      if (latestSlabState.totalUnit > 50) {
+        label = label + " • " + t("slabLifelineCrossed");
+      }
+
+      btn.innerHTML = '<span>' + escapeHtml(label) + '</span>';
+    }
+
+    function showSlabDetailsModal() {
+      if ((!latestSlabState || !latestSlabState.totalUnit) && lastExport && lastExport.dailyRows && lastExport.dailyRows.length) {
+        updateSlabButton(getLoadedVisibleMonthTotalUnit());
+      }
+
+      var state = latestSlabState || calculateSlabDetails(0);
+
+      if (!state || !state.calculationRows || !state.calculationRows.length) {
+        Swal.fire({
+          icon: "info",
+          title: t("slabModalTitle"),
+          text: t("slabNoData"),
+          confirmButtonText: currentLanguage === "bn" ? "ঠিক আছে" : "OK"
+        });
+        return;
+      }
+
+      var current = state.currentSlab || domesticSlabs[0];
+
+      if (el("slabDetailsModalLabel")) el("slabDetailsModalLabel").textContent = t("slabModalTitle");
+
+      var html = "";
+      var usageMonth = (lastExport && lastExport.dailyRows && lastExport.dailyRows.length)
+        ? getLatestVisibleMonthFromRows(lastExport.dailyRows)
+        : toMonthInputValue(new Date());
+
+      html += '<div class="slab-summary-card">';
+      html += '<div class="slab-summary-item"><span>' + escapeHtml(t("slabCustomerCategory")) + '</span><strong>' + escapeHtml(t("slabDomestic")) + '</strong></div>';
+      html += '<div class="slab-summary-item"><span>' + escapeHtml(t("slabUsageMonth")) + '</span><strong>' + escapeHtml(monthLabel(usageMonth)) + '</strong></div>';
+      html += '<div class="slab-summary-item"><span>' + escapeHtml(t("slabCurrentMonthUnit")) + '</span><strong>' + safeNum(state.totalUnit) + ' kWh</strong></div>';
+      html += '<div class="slab-summary-item"><span>' + escapeHtml(t("slabCurrentSlab")) + '</span><strong>' + escapeHtml(t(current.key)) + '</strong></div>';
+      html += '<div class="slab-summary-item"><span>' + escapeHtml(t("slabRunningRate")) + '</span><strong>' + safeNum(current.rate) + ' BDT/kWh</strong></div>';
+      html += '<div class="slab-summary-item"><span>' + escapeHtml(t("slabEstimatedEnergyCost")) + '</span><strong>' + formatBDT(state.estimatedCost) + '</strong></div>';
+      html += '</div>';
+
+      html += '<div class="table-wrap"><table><thead><tr>' +
+        '<th>' + escapeHtml(t("slabCurrentSlab")) + '</th>' +
+        '<th>' + escapeHtml(t("slabUnitRange")) + '</th>' +
+        '<th class="num">' + escapeHtml(t("slabRate")) + '</th>' +
+        '<th class="num">' + escapeHtml(t("slabUnitsInSlab")) + '</th>' +
+        '<th class="num">' + escapeHtml(t("slabAmount")) + '</th>' +
+        '</tr></thead><tbody>';
+
+      state.calculationRows.forEach(function(row) {
+        html += '<tr class="' + (row.isCurrent ? 'slab-current-row' : '') + '">' +
+          '<td>' + escapeHtml(t(row.key)) + '</td>' +
+          '<td>' + escapeHtml(row.range) + '</td>' +
+          '<td class="num">' + safeNum(row.rate) + '</td>' +
+          '<td class="num">' + safeNum(row.usedUnit) + '</td>' +
+          '<td class="num">' + safeNum(row.amount) + '</td>' +
+          '</tr>';
+      });
+
+      html += '</tbody></table></div>';
+      html += '<div class="slab-explain"><strong>' + escapeHtml(t("slabNoteTitle")) + ':</strong> ' + escapeHtml(t("slabExplainText")) + '</div>';
+
+      el("slabDetailsBody").innerHTML = html;
+      el("slabDetailsCloseBtn").textContent = t("slabClose");
+
+      var modal = new bootstrap.Modal(el("slabDetailsModal"));
+      modal.show();
+    }
+
 
     async function loadDashboard() {
       var accountNo = el("accountNo").value.trim();
@@ -2090,7 +2506,8 @@
       var rechargeFrom = getRechargeFromDate(dailyTo);
 
       el("status").removeAttribute("data-status-key");
-      setStatus(t("loading"));
+      showProgressMode();
+      setProgress(10, t("loading"));
 
       try {
         var today = new Date();
@@ -2133,6 +2550,8 @@
         var locationRaw = settled[5];
         var recentEventRaw = settled[6];
 
+        setProgress(35, currentLanguage === "bn" ? "মূল API ডাটা লোড হয়েছে..." : "Main API data loaded...");
+
         var rechargeRaw = await fetchJsonWithRetry(urls.recharge, {
           label: "Recharge history",
           retries: 7,
@@ -2150,6 +2569,8 @@
         var errors = [customerRaw, balanceRaw, dailyRaw, monthlyRaw, previousYearMonthlyRaw, rechargeRaw]
           .filter(function(item) { return item.status === "rejected"; })
           .map(function(item) { return item.reason.message; });
+
+        setProgress(55, currentLanguage === "bn" ? "রিচার্জ হিস্টোরি প্রসেস হচ্ছে..." : "Processing recharge history...");
 
         if (errors.length) console.warn(errors);
 
@@ -2173,10 +2594,9 @@
         });
 
         var currentMonthDaily = getCurrentMonthDailyRows(dailyRows);
+        var visibleUsageMonth = getLatestVisibleMonthFromRows(dailyRows);
 
-        var currentMonthUnit = currentMonthDaily.reduce(function(sum, row) {
-          return sum + (Number.isFinite(row.dailyUnit) ? row.dailyUnit : 0);
-        }, 0);
+        var currentMonthUnit = getMonthTotalUnitFromRows(dailyRows, visibleUsageMonth);
 
         var currentMonthTaka = currentMonthDaily.reduce(function(sum, row) {
           return sum + (Number.isFinite(row.dailyTaka) ? row.dailyTaka : 0);
@@ -2186,9 +2606,13 @@
           return sum + (Number.isFinite(row.totalAmount) ? row.totalAmount : 0);
         }, 0);
 
+        updateSlabButton(currentMonthUnit);
+
         var currentYearRecharge = currentYearRechargeRows.reduce(function(sum, row) {
           return sum + (Number.isFinite(row.totalAmount) ? row.totalAmount : 0);
         }, 0);
+
+        setProgress(75, currentLanguage === "bn" ? "চার্ট ও টেবিল তৈরি হচ্ছে..." : "Building charts and tables...");
 
         updateCards({
           balance: balance,
@@ -2203,6 +2627,8 @@
           totalEnergyRecharge: estimatedBalance.totalEnergyRecharge,
           totalConsumption: estimatedBalance.totalConsumption
         });
+
+        setProgress(92, currentLanguage === "bn" ? "শেষ ধাপ চলছে..." : "Finishing up...");
 
         renderCustomerTable(customer);
         renderDailyTable(dailyRows);
@@ -2245,18 +2671,20 @@
         };
 
         var errorText = errors.length ? "\n\n" + t("someApiFailed") : "";
+        setProgress(100, currentLanguage === "bn" ? "সম্পন্ন হয়েছে" : "Completed");
 
-        el("status").removeAttribute("data-status-key");
-        setStatus(
-          t("loadedSuccessfully") + "\n" +
-          t("dailyRows") + dailyRows.length + "\n" +
-          t("currentMonthRowsShown") + currentMonthDaily.length + "\n" +
-          t("monthlyRowsIncludingCurrent") + monthlyRows.length + "\n" +
-          t("rechargeRows") + rechargeRows.length + "\n" +
-          t("rechargeRangeUsed") + rechargeFrom + " to " + dailyTo + errorText
-        );
+        setTimeout(function() {
+          hideProgress();
+          var status = el("status");
+          if (status) {
+            status.classList.add("d-none");
+            status.removeAttribute("data-status-key");
+          }
+          showLoadCompletedSwal();
+        }, 350);
       } catch (err) {
         console.error(err);
+        showStatusMode();
         setStatus(err.message || String(err), true);
       } finally {
         setLoadButtonLoading(false);
@@ -2455,6 +2883,7 @@
         currentMonthRechargeTable: "Current Month Recharge Table",
         customerInfo: "Customer Information",
         dailyTable: "Daily Consumption Table",
+        dailyTableSub: "Selected visible month + calculated daily usage",
         monthlyTable: "Monthly Consumption Table",
         rechargeHistoryTable: "Recharge History Table",
                 monthlyComparisonTitle: "Monthly Consumption Comparison Table",
@@ -2491,6 +2920,31 @@
         tableDemandCharge: "Demand Charge",
         tableMeterRent: "Meter Rent",
         tableStatus: "Status",
+                slabButtonDefault: "Slab Details",
+        slabModalTitle: "Slab Calculation Details",
+        slabClose: "Close",
+        slabCurrentMonthUnit: "This Month Total Usage",
+        slabUsageMonth: "Usage Month",
+        slabCurrentSlab: "Current Slab",
+        slabRunningRate: "Running Energy Rate",
+        slabEstimatedEnergyCost: "Estimated Energy Cost",
+        slabCustomerCategory: "Customer Category",
+        slabUnitRange: "Unit Range",
+        slabRate: "Rate",
+        slabUnitsInSlab: "Units in Slab",
+        slabAmount: "Amount",
+        slabNoteTitle: "How this works",
+        slabNoData: "No current-month unit found yet. Load dashboard data first.",
+        slabLifelineCrossed: "Lifeline Crossed",
+        slabLifeline: "Lifeline",
+        slabFirst: "First Slab",
+        slabSecond: "Second Slab",
+        slabThird: "Third Slab",
+        slabFourth: "Fourth Slab",
+        slabFifth: "Fifth Slab",
+        slabSixth: "Sixth Slab",
+        slabDomestic: "LT-A Domestic",
+        slabExplainText: "The slab calculation is progressive. Example: if monthly usage is 75 units, first 50 units are charged at the lifeline rate, and the next 25 units are charged at the next slab rate. This is an estimated energy-charge calculation only.",
         someApiFailed: "Some API failed. Check console for details."
       },
       bn: {
@@ -2561,6 +3015,7 @@
         currentMonthRechargeTable: "চলতি মাসের রিচার্জ টেবিল",
         customerInfo: "কাস্টমার তথ্য",
         dailyTable: "দৈনিক ব্যবহার টেবিল",
+        dailyTableSub: "নির্বাচিত দৃশ্যমান মাস + হিসাব করা দৈনিক ব্যবহার",
         monthlyTable: "মাসিক ব্যবহার টেবিল",
         rechargeHistoryTable: "রিচার্জ হিস্টোরি টেবিল",
 noCurrentMonthRecharge: "চলতি মাসে কোনো রিচার্জ পাওয়া যায়নি।",
@@ -2604,6 +3059,31 @@ noCurrentMonthRecharge: "চলতি মাসে কোনো রিচার�
         tableDemandCharge: "ডিমান্ড চার্জ",
         tableMeterRent: "মিটার ভাড়া",
         tableStatus: "স্ট্যাটাস",
+                slabButtonDefault: "স্ল্যাব বিস্তারিত",
+        slabModalTitle: "স্ল্যাব হিসাবের বিস্তারিত",
+        slabClose: "বন্ধ করুন",
+        slabCurrentMonthUnit: "এই মাসের মোট ব্যবহার",
+        slabUsageMonth: "ব্যবহারের মাস",
+        slabCurrentSlab: "বর্তমান স্ল্যাব",
+        slabRunningRate: "চলমান এনার্জি রেট",
+        slabEstimatedEnergyCost: "আনুমানিক এনার্জি খরচ",
+        slabCustomerCategory: "গ্রাহক শ্রেণী",
+        slabUnitRange: "ইউনিট রেঞ্জ",
+        slabRate: "রেট",
+        slabUnitsInSlab: "এই স্ল্যাবে ইউনিট",
+        slabAmount: "টাকা",
+        slabNoteTitle: "হিসাব যেভাবে হয়",
+        slabNoData: "চলতি মাসের ইউনিট পাওয়া যায়নি। আগে ড্যাশবোর্ড ডাটা লোড করুন।",
+        slabLifelineCrossed: "লাইফলাইন অতিক্রম করেছে",
+        slabLifeline: "লাইফলাইন",
+        slabFirst: "প্রথম ধাপ",
+        slabSecond: "দ্বিতীয় ধাপ",
+        slabThird: "তৃতীয় ধাপ",
+        slabFourth: "চতুর্থ ধাপ",
+        slabFifth: "পঞ্চম ধাপ",
+        slabSixth: "ষষ্ঠ ধাপ",
+        slabDomestic: "এলটি-এ: আবাসিক",
+        slabExplainText: "স্ল্যাব হিসাব প্রগ্রেসিভভাবে হয়। যেমন: মাসে ৭৫ ইউনিট ব্যবহার হলে প্রথম ৫০ ইউনিট লাইফলাইন রেটে এবং পরের ২৫ ইউনিট পরবর্তী স্ল্যাব রেটে হিসাব হয়। এটি শুধুমাত্র আনুমানিক এনার্জি চার্জের হিসাব।",
         someApiFailed: "কিছু API ব্যর্থ হয়েছে। বিস্তারিত Console-এ দেখুন।"
       }
     };
@@ -2701,6 +3181,7 @@ noCurrentMonthRecharge: "চলতি মাসে কোনো রিচার�
             if (typeof rerenderLoadedTablesForLanguage === "function") {
               rerenderLoadedTablesForLanguage();
             }
+            updateSlabButton(latestSlabState ? latestSlabState.totalUnit : 0);
             setTranslatedStatus("readyStatus", false);
           });
         }
@@ -2734,5 +3215,21 @@ noCurrentMonthRecharge: "চলতি মাসে কোনো রিচার�
       initDashboard();
     }
   </script>
+
+  <div class="modal fade" id="slabDetailsModal" tabindex="-1" aria-labelledby="slabDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content slab-modal-content">
+        <div class="modal-header slab-modal-header">
+          <h5 class="modal-title" id="slabDetailsModalLabel">Slab Calculation Details</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="slabDetailsBody"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="slabDetailsCloseBtn">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
