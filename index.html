@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<!-- DESCO Dashboard Final Clean Version -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DESCO Prepaid Dashboard</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #172033;
+      --muted: #667085;
+      --border: #d9e2ef;
+      --primary: #1463ff;
+      --danger: #d92d20;
+      --success: #039855;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .container {
+      width: min(1400px, calc(100% - 28px));
+      margin: 24px auto 60px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0b3d91, #1463ff);
+      color: white;
+      padding: 24px;
+      border-radius: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 14px 40px rgba(20, 99, 255, .18);
+    }
+
+    .hero h1 { margin: 0 0 8px; font-size: 28px; }
+    .hero p { margin: 0; color: rgba(255, 255, 255, .85); }
+
+    .panel, .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 8px 22px rgba(16, 24, 40, .05);
+    }
+
+    .panel { padding: 16px; margin-bottom: 18px; }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      align-items: end;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    input, select, button {
+      width: 100%;
+      height: 42px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      padding: 0 12px;
+      font-size: 14px;
+      background: white;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: var(--primary);
+      color: white;
+      font-weight: 700;
+    }
+
+    button.secondary {
+      background: #eef4ff;
+      color: #0b3d91;
+      border: 1px solid #bad2ff;
+    }
+
+    button.success { background: var(--success); color: white; }
+
+    .status {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: #f8fafc;
+      border: 1px dashed var(--border);
+      color: var(--muted);
+      font-size: 13px;
+      white-space: pre-wrap;
+    }
+
+    .status.error {
+      background: #fff1f1;
+      border-color: #ffc7c7;
+      color: var(--danger);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .card { padding: 16px; overflow: hidden; }
+
+    .metric-title { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+    .metric-value { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+    .metric-sub { margin-top: 6px; font-size: 12px; color: var(--muted); }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .grid-1 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      gap: 12px;
+    }
+
+    .section-title h2 { margin: 0; font-size: 18px; }
+    .section-title span { font-size: 12px; color: var(--muted); }
+
+    canvas { width: 100% !important; height: 330px !important; }
+
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 760px;
+      font-size: 13px;
+      background: white;
+    }
+
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #475467;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+
+    td.num, th.num { text-align: right; }
+
+    .note {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 1000px) {
+      .form-grid, .cards, .grid-2 { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 650px) {
+      .form-grid, .cards, .grid-2 { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 22px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <section class="hero">
+      <h1>DESCO Prepaid Dashboard</h1>
+      <p>Balance, recharge, daily consumption, monthly consumption, corrected daily usage, and current-month calculation from daily data.</p>
+    </section>
+
+    <section class="panel">
+      <div class="form-grid">
+        <div><label>Account No</label><input id="accountNo" value="41301620" placeholder="Enter account no" /></div>
+        <div><label>Meter No</label><input id="meterNo" value="661150029802" placeholder="Enter meter no" /></div>
+        <div><label>Daily From</label><input id="dailyFrom" type="date" /></div>
+        <div><label>Daily To</label><input id="dailyTo" type="date" /></div>
+        <div><label>Monthly From</label><input id="monthFrom" type="month" /></div>
+        <div><label>Monthly To</label><input id="monthTo" type="month" /></div>
+
+        <div>
+          <label>System</label>
+          <select id="systemType">
+            <option value="tkdes">tkdes</option>
+            <option value="unified">unified customer info only</option>
+          </select>
+        </div>
+
+        <div><button id="loadBtn" type="button">Load Dashboard</button></div>
+        <div><button class="secondary" id="exportBtn" type="button">Export JSON</button></div>
+        <div><button class="success" id="rechargeBtn" type="button">Recharge Now</button></div>
+      </div>
+
+      <div id="status" class="status">Ready. Dates will auto-select after page load.</div>
+    </section>
+
+    <section class="cards">
+      <div class="card"><div class="metric-title">Remaining Balance</div><div id="balanceValue" class="metric-value">--</div><div id="balanceSub" class="metric-sub">Reading time: --</div></div>
+      <div class="card"><div class="metric-title">Last Recharge</div><div id="lastRechargeValue" class="metric-value">--</div><div id="lastRechargeSub" class="metric-sub">Recharge time: --</div></div>
+      <div class="card"><div class="metric-title">Used This Month</div><div id="currentMonthUnit" class="metric-value">--</div><div id="currentMonthTaka" class="metric-sub">Calculated from daily consumption</div></div>
+      <div class="card"><div class="metric-title">Recharged This Month</div><div id="currentMonthRecharge" class="metric-value">--</div><div id="currentYearRecharge" class="metric-sub">Year total: --</div></div>
+    </section>
+
+    <section class="grid-2">
+      <div class="card"><div class="section-title"><h2>Daily Consumption</h2><span>Current month only. Unit/taka are calculated daily values.</span></div><canvas id="dailyChart"></canvas></div>
+      <div class="card"><div class="section-title"><h2>Monthly Consumption</h2><span>Current month added from daily API because monthly API excludes ongoing month</span></div><canvas id="monthlyChart"></canvas></div>
+    </section>
+
+    <section class="grid-2">
+      <div class="card"><div class="section-title"><h2>Recharge vs Consumption</h2><span>BDT comparison</span></div><canvas id="rechargeConsumptionChart"></canvas></div>
+      <div class="card"><div class="section-title"><h2>Recharge History</h2><span>Fetched once with async/await retry</span></div><canvas id="rechargeChart"></canvas></div>
+    </section>
+
+    <section class="grid-1">
+      <div class="card"><div class="section-title"><h2>Customer Information</h2><span id="customerSource">--</span></div><div id="customerTable" class="table-wrap"></div></div>
+      <div class="card"><div class="section-title"><h2>Daily Consumption Table</h2><span>Current month only + calculated daily usage</span></div><div id="dailyTable" class="table-wrap"></div></div>
+      <div class="card"><div class="section-title"><h2>Monthly Consumption Table</h2><span>Includes current month from daily calculation</span></div><div id="monthlyTable" class="table-wrap"></div></div>
+      <div class="card"><div class="section-title"><h2>Recharge History Table</h2><span>DESCO max range: 12 months</span></div><div id="rechargeTable" class="table-wrap"></div></div>
+      <div class="card note"><strong>Important:</strong> Default date range is last 6 months. DESCO recharge history rejects ranges over 12 months, so this dashboard validates with SweetAlert and uses a safe recharge range. Recharge Now opens the official eKPay DESCO Prepaid biller page in a new tab.</div>
+    </section>
+  </div>
+
+  <script>
+    "use strict";
+
+    var API_BASE = "https://prepaid.desco.org.bd";
+    var RECHARGE_URL = "https://ekpay.gov.bd/#/dedicated-biller/desco-prepaid";
+    var lastExport = {};
+    var charts = {};
+
+    function el(id) { return document.getElementById(id); }
+    function pad(n) { return String(n).padStart(2, "0"); }
+    function toDateInputValue(date) { return date.getFullYear() + "-" + pad(date.getMonth() + 1) + "-" + pad(date.getDate()); }
+    function toMonthInputValue(date) { return date.getFullYear() + "-" + pad(date.getMonth() + 1); }
+
+    function parseLocalDate(dateString) {
+      var parts = String(dateString).split("-").map(Number);
+      return new Date(parts[0], parts[1] - 1, parts[2]);
+    }
+
+    function addDays(date, days) {
+      var d = new Date(date);
+      d.setDate(d.getDate() + days);
+      return d;
+    }
+
+    function addMonths(date, months) {
+      var d = new Date(date);
+      d.setMonth(d.getMonth() + months);
+      return d;
+    }
+
+    function firstDayOfMonth(date) { return new Date(date.getFullYear(), date.getMonth(), 1); }
+    function lastDayOfPreviousMonth(date) { return new Date(date.getFullYear(), date.getMonth(), 0); }
+
+    function getRechargeFromDate(dateToString) {
+      var to = parseLocalDate(dateToString);
+      return toDateInputValue(addDays(addMonths(to, -12), 1));
+    }
+
+    function monthsBetweenInclusive(monthFrom, monthTo) {
+      var fromParts = String(monthFrom).split("-").map(Number);
+      var toParts = String(monthTo).split("-").map(Number);
+      return ((toParts[0] - fromParts[0]) * 12) + (toParts[1] - fromParts[1]) + 1;
+    }
+
+    function isDateRangeOverOneYear(fromDateString, toDateString) {
+      var from = parseLocalDate(fromDateString);
+      var to = parseLocalDate(toDateString);
+      var maxTo = addMonths(from, 12);
+      return to > maxTo;
+    }
+
+    function showRangeWarning(message) {
+      return Swal.fire({ icon: "warning", title: "Date range too long", text: message, confirmButtonText: "OK" });
+    }
+
+    function validateRanges() {
+      var dailyFrom = el("dailyFrom").value;
+      var dailyTo = el("dailyTo").value;
+      var monthFrom = el("monthFrom").value;
+      var monthTo = el("monthTo").value;
+
+      if (!dailyFrom || !dailyTo || !monthFrom || !monthTo) {
+        showRangeWarning("Please select all date and month fields before loading.");
+        return false;
+      }
+
+      if (parseLocalDate(dailyFrom) > parseLocalDate(dailyTo)) {
+        showRangeWarning("Daily From date cannot be after Daily To date.");
+        return false;
+      }
+
+      if (monthFrom > monthTo) {
+        showRangeWarning("Monthly From cannot be after Monthly To.");
+        return false;
+      }
+
+      if (isDateRangeOverOneYear(dailyFrom, dailyTo)) {
+        showRangeWarning("Daily consumption range cannot be more than 1 year. Please select a shorter range.");
+        return false;
+      }
+
+      if (monthsBetweenInclusive(monthFrom, monthTo) > 12) {
+        showRangeWarning("Monthly consumption range cannot be more than 12 months. Please select 12 months or less.");
+        return false;
+      }
+
+      return true;
+    }
+
+    function setDefaults() {
+      var today = new Date();
+      var dailyTo = today;
+      var dailyFrom = addMonths(today, -6);
+      var monthTo = lastDayOfPreviousMonth(today);
+      var monthFrom = addMonths(firstDayOfMonth(monthTo), -5);
+
+      el("dailyFrom").value = toDateInputValue(dailyFrom);
+      el("dailyTo").value = toDateInputValue(dailyTo);
+      el("monthFrom").value = toMonthInputValue(monthFrom);
+      el("monthTo").value = toMonthInputValue(monthTo);
+    }
+
+    function setStatus(text, isError) {
+      el("status").textContent = text;
+      el("status").className = "status" + (isError ? " error" : "");
+    }
+
+    function num(value) {
+      if (value === null || value === undefined || value === "") return NaN;
+      if (typeof value === "number") return value;
+      var n = Number(String(value).replace(/,/g, "").trim());
+      return Number.isFinite(n) ? n : NaN;
+    }
+
+    function formatBDT(value) {
+      var n = num(value);
+      if (!Number.isFinite(n)) return "--";
+      return n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " BDT";
+    }
+
+    function formatUnit(value) {
+      var n = num(value);
+      if (!Number.isFinite(n)) return "--";
+      return n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " kWh";
+    }
+
+    function safeNum(value) {
+      var n = num(value);
+      return Number.isFinite(n) ? n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "--";
+    }
+
+    function escapeHtml(value) {
+      if (value === undefined || value === null) return "";
+      return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    function firstValue(obj, keys) {
+      if (!obj) return undefined;
+      for (var i = 0; i < keys.length; i++) {
+        var key = keys[i];
+        if (obj[key] !== undefined && obj[key] !== null && obj[key] !== "") return obj[key];
+      }
+      return undefined;
+    }
+
+    function unwrapResponse(data) {
+      if (Array.isArray(data)) return data;
+      if (!data || typeof data !== "object") return data;
+      if (data.code !== undefined && data.data !== undefined) return data.data;
+      return data;
+    }
+
+    async function fetchJson(url) {
+      var res = await fetch(url, { method: "GET", cache: "no-store", headers: { "Accept": "application/json, text/plain, */*" } });
+      var text = await res.text();
+      var parsed;
+
+      try { parsed = JSON.parse(text); } catch (e) { parsed = text; }
+
+      if (!res.ok) {
+        throw new Error(String(res.status) + " " + String(res.statusText) + "\n" + url + "\n" + String(text).slice(0, 300));
+      }
+
+      return parsed;
+    }
+
+    async function fetchJsonWithRetry(url, options) {
+      options = options || {};
+      var retries = options.retries || 6;
+      var baseDelay = options.baseDelay || 1200;
+      var label = options.label || "API";
+      var lastError = null;
+
+      for (var attempt = 1; attempt <= retries; attempt++) {
+        try {
+          setStatus(label + ": attempt " + attempt + "/" + retries + "...");
+          var parsed = await fetchJson(url);
+          var desc = parsed && typeof parsed === "object" ? String(parsed.desc || "") : "";
+          var isRateLimited = desc.toLowerCase().indexOf("ratelimiter") >= 0 || desc.toLowerCase().indexOf("rate limit") >= 0;
+          var isBadCode = parsed && typeof parsed === "object" && parsed.code !== undefined && parsed.code !== 200;
+
+          if (isRateLimited || isBadCode) {
+            throw new Error(label + " failed: " + (desc || "Non-200 API code"));
+          }
+
+          return parsed;
+        } catch (err) {
+          lastError = err;
+          if (attempt === retries) break;
+          var delay = baseDelay * attempt;
+          setStatus(label + ": " + err.message + "\nRetrying in " + Math.round(delay / 1000) + " sec...");
+          await sleep(delay);
+        }
+      }
+
+      throw lastError || new Error(label + " failed after retry.");
+    }
+
+    function sleep(ms) {
+      return new Promise(function(resolve) { setTimeout(resolve, ms); });
+    }
+
+    function buildUrl(path, params) {
+      var u = new URL(API_BASE + path);
+      Object.keys(params).forEach(function(key) {
+        var value = params[key];
+        if (value !== undefined && value !== null && value !== "") u.searchParams.set(key, value);
+      });
+      return u.toString();
+    }
+
+    function normalizeCustomer(raw) {
+      var data = unwrapResponse(raw);
+      if (Array.isArray(data)) return data[0] || {};
+      return data || {};
+    }
+
+    function normalizeBalance(raw) {
+      var data = unwrapResponse(raw);
+      if (Array.isArray(data)) return data[0] || {};
+      return data || {};
+    }
+
+    function getChargeAmount(chargeItems, name) {
+      if (!Array.isArray(chargeItems)) return 0;
+      var item = chargeItems.find(function(x) { return x.chargeItemName === name; });
+      return item ? num(item.chargeAmount) : 0;
+    }
+
+    function normalizeRecharge(raw) {
+      var arr = Array.isArray(unwrapResponse(raw)) ? unwrapResponse(raw) : [];
+
+      return arr.map(function(r) {
+        return {
+          original: r,
+          orderNo: r.orderID,
+          meterNo: r.meterNo,
+          dateTime: r.rechargeDate,
+          date: String(r.rechargeDate || "").slice(0, 10),
+          totalAmount: num(r.totalAmount),
+          energyAmount: num(r.energyAmount),
+          vat: num(r.VAT),
+          rebate: num(r.rebate),
+          revenue: num(r.revenue),
+          tokenNo: r.tokenNo,
+          status: r.orderStatus,
+          demandCharge: getChargeAmount(r.chargeItems, "Demand Charge-All"),
+          meterRent: getChargeAmount(r.chargeItems, "Meter Rent-1P")
+        };
+      }).sort(function(a, b) {
+        return new Date(a.dateTime || a.date) - new Date(b.dateTime || b.date);
+      });
+    }
+
+    function normalizeDaily(raw) {
+      var arr = Array.isArray(unwrapResponse(raw)) ? unwrapResponse(raw) : [];
+
+      return arr.map(function(d) {
+        return {
+          original: d,
+          date: d.date,
+          accountNo: d.accountNo,
+          meterNo: d.meterNo,
+          consumedUnitTotal: num(d.consumedUnit),
+          consumedTakaTotal: num(d.consumedTaka)
+        };
+      }).filter(function(x) {
+        return x.date;
+      }).sort(function(a, b) {
+        return new Date(a.date) - new Date(b.date);
+      });
+    }
+
+    function calculateDailyDifferences(dailyRows, visibleFromDate) {
+      var calculated = dailyRows.map(function(row, index) {
+        var prev = dailyRows[index - 1];
+        var sameMonthAsPrevious = prev && String(prev.date).slice(0, 7) === String(row.date).slice(0, 7);
+        var unitDiff = prev ? row.consumedUnitTotal - prev.consumedUnitTotal : 0;
+        var takaDiff = sameMonthAsPrevious ? row.consumedTakaTotal - prev.consumedTakaTotal : row.consumedTakaTotal;
+
+        return {
+          original: row.original,
+          date: row.date,
+          accountNo: row.accountNo,
+          meterNo: row.meterNo,
+          consumedUnitTotal: row.consumedUnitTotal,
+          consumedTakaTotal: row.consumedTakaTotal,
+          dailyUnit: Number.isFinite(unitDiff) && unitDiff >= 0 ? unitDiff : 0,
+          dailyTaka: Number.isFinite(takaDiff) && takaDiff >= 0 ? takaDiff : 0,
+          calculationNote: sameMonthAsPrevious ? "unit/taka difference from previous day" : "new month: unit difference, taka starts from current day total"
+        };
+      });
+
+      if (!visibleFromDate) return calculated;
+      return calculated.filter(function(row) { return row.date >= visibleFromDate; });
+    }
+
+    function normalizeMonthly(raw) {
+      var arr = Array.isArray(unwrapResponse(raw)) ? unwrapResponse(raw) : [];
+
+      return arr.map(function(m) {
+        return {
+          original: m,
+          month: m.month,
+          consumedTaka: num(m.consumedTaka),
+          consumedUnit: num(m.consumedUnit),
+          maximumDemand: num(m.maximumDemand),
+          source: "monthly API"
+        };
+      }).filter(function(x) {
+        return x.month;
+      }).sort(function(a, b) {
+        return new Date(a.month + "-01") - new Date(b.month + "-01");
+      });
+    }
+
+    function getCurrentMonthDailyRows(dailyRows) {
+      var currentMonth = toMonthInputValue(new Date());
+      return dailyRows.filter(function(row) { return row.date && row.date.indexOf(currentMonth) === 0; });
+    }
+
+    function mergeCurrentMonthFromDaily(monthlyRows, dailyRows, today) {
+      var currentMonth = toMonthInputValue(today);
+      var currentRows = dailyRows.filter(function(row) { return row.date && row.date.indexOf(currentMonth) === 0; });
+
+      var unit = currentRows.reduce(function(sum, row) { return sum + (Number.isFinite(row.dailyUnit) ? row.dailyUnit : 0); }, 0);
+      var taka = currentRows.reduce(function(sum, row) { return sum + (Number.isFinite(row.dailyTaka) ? row.dailyTaka : 0); }, 0);
+
+      var withoutCurrent = monthlyRows.filter(function(row) { return row.month !== currentMonth; });
+
+      withoutCurrent.push({
+        month: currentMonth,
+        consumedUnit: unit,
+        consumedTaka: taka,
+        maximumDemand: 0,
+        source: "calculated from daily API"
+      });
+
+      return withoutCurrent.sort(function(a, b) {
+        return new Date(a.month + "-01") - new Date(b.month + "-01");
+      });
+    }
+
+    function groupRechargeByMonth(rechargeRows) {
+      var map = new Map();
+
+      rechargeRows.forEach(function(row) {
+        if (!row.date) return;
+        var month = row.date.slice(0, 7);
+        var amount = Number.isFinite(row.totalAmount) ? row.totalAmount : 0;
+        map.set(month, (map.get(month) || 0) + amount);
+      });
+
+      return map;
+    }
+
+    function renderChart(id, config) {
+      var ctx = el(id);
+      if (charts[id]) charts[id].destroy();
+      charts[id] = new Chart(ctx, config);
+    }
+
+    function chartOptions() {
+      return {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: { legend: { position: "bottom" }, tooltip: { enabled: true } },
+        scales: { x: { ticks: { maxRotation: 45, minRotation: 0 } }, y: { beginAtZero: true } }
+      };
+    }
+
+    function round(value) {
+      var n = num(value);
+      return Number.isFinite(n) ? Math.round(n * 100) / 100 : 0;
+    }
+
+    function renderAllCharts(data) {
+      var dailyRows = data.dailyRows;
+      var monthlyRows = data.monthlyRows;
+      var rechargeRows = data.rechargeRows;
+      var currentMonthDailyRows = getCurrentMonthDailyRows(dailyRows);
+
+      renderChart("dailyChart", {
+        type: "line",
+        data: {
+          labels: currentMonthDailyRows.map(function(x) { return x.date; }),
+          datasets: [
+            { label: "Daily Unit (kWh)", data: currentMonthDailyRows.map(function(x) { return round(x.dailyUnit); }), tension: 0.25 },
+            { label: "Daily Cost (BDT)", data: currentMonthDailyRows.map(function(x) { return round(x.dailyTaka); }), tension: 0.25 }
+          ]
+        },
+        options: chartOptions()
+      });
+
+      renderChart("monthlyChart", {
+        type: "bar",
+        data: {
+          labels: monthlyRows.map(function(x) { return x.month; }),
+          datasets: [
+            { label: "Consumed Unit (kWh)", data: monthlyRows.map(function(x) { return round(x.consumedUnit); }) },
+            { label: "Consumed BDT", data: monthlyRows.map(function(x) { return round(x.consumedTaka); }) }
+          ]
+        },
+        options: chartOptions()
+      });
+
+      var rechargeMonthMap = groupRechargeByMonth(rechargeRows);
+      var labels = monthlyRows.map(function(x) { return x.month; });
+
+      renderChart("rechargeConsumptionChart", {
+        type: "bar",
+        data: {
+          labels: labels,
+          datasets: [
+            { label: "Recharge BDT", data: labels.map(function(m) { return round(rechargeMonthMap.get(m) || 0); }) },
+            { label: "Consumption BDT", data: monthlyRows.map(function(x) { return round(x.consumedTaka); }) }
+          ]
+        },
+        options: chartOptions()
+      });
+
+      renderChart("rechargeChart", {
+        type: "line",
+        data: {
+          labels: rechargeRows.map(function(x) { return x.date || x.dateTime; }),
+          datasets: [
+            { label: "Total Amount", data: rechargeRows.map(function(x) { return round(x.totalAmount); }), tension: 0.25 },
+            { label: "Energy Amount", data: rechargeRows.map(function(x) { return round(x.energyAmount); }), tension: 0.25 }
+          ]
+        },
+        options: chartOptions()
+      });
+    }
+
+    function renderCustomerTable(customer) {
+      var rows = Object.keys(customer || {}).filter(function(key) { return typeof customer[key] !== "object"; });
+      var html = "<table><thead><tr><th>Field</th><th>Value</th></tr></thead><tbody>";
+
+      rows.forEach(function(key) {
+        html += "<tr><td>" + escapeHtml(key) + "</td><td>" + escapeHtml(customer[key]) + "</td></tr>";
+      });
+
+      html += "</tbody></table>";
+      el("customerTable").innerHTML = html;
+    }
+
+    function renderDailyTable(rows) {
+      var currentMonthRows = getCurrentMonthDailyRows(rows);
+      var html = "<table><thead><tr><th>Date</th><th class=\"num\">Daily Unit</th><th class=\"num\">Daily Cost</th><th>Calculation</th></tr></thead><tbody>";
+
+      currentMonthRows.forEach(function(row) {
+        html += "<tr>" +
+          "<td>" + escapeHtml(row.date) + "</td>" +
+          "<td class=\"num\"><strong>" + safeNum(row.dailyUnit) + "</strong></td>" +
+          "<td class=\"num\"><strong>" + safeNum(row.dailyTaka) + "</strong></td>" +
+          "<td>" + escapeHtml(row.calculationNote) + "</td>" +
+          "</tr>";
+      });
+
+      html += "</tbody></table>";
+      el("dailyTable").innerHTML = html;
+    }
+
+    function renderMonthlyTable(rows) {
+      var html = "<table><thead><tr><th>Month</th><th class=\"num\">Consumed Unit</th><th class=\"num\">Consumed BDT</th><th class=\"num\">Maximum Demand</th><th>Source</th></tr></thead><tbody>";
+
+      rows.forEach(function(row) {
+        html += "<tr>" +
+          "<td>" + escapeHtml(row.month) + "</td>" +
+          "<td class=\"num\">" + safeNum(row.consumedUnit) + "</td>" +
+          "<td class=\"num\">" + safeNum(row.consumedTaka) + "</td>" +
+          "<td class=\"num\">" + safeNum(row.maximumDemand) + "</td>" +
+          "<td>" + escapeHtml(row.source) + "</td>" +
+          "</tr>";
+      });
+
+      html += "</tbody></table>";
+      el("monthlyTable").innerHTML = html;
+    }
+
+    function renderRechargeTable(rows) {
+      var sorted = rows.slice().sort(function(a, b) { return new Date(b.dateTime || b.date) - new Date(a.dateTime || a.date); });
+      var html = "<table><thead><tr><th>Order No</th><th>Date & Time</th><th>Meter No</th><th class=\"num\">Total Amount</th><th class=\"num\">Energy Amount</th><th class=\"num\">VAT</th><th class=\"num\">Rebate</th><th class=\"num\">Demand Charge</th><th class=\"num\">Meter Rent</th><th>Status</th></tr></thead><tbody>";
+
+      sorted.forEach(function(row) {
+        html += "<tr>" +
+          "<td>" + escapeHtml(row.orderNo) + "</td>" +
+          "<td>" + escapeHtml(row.dateTime) + "</td>" +
+          "<td>" + escapeHtml(row.meterNo) + "</td>" +
+          "<td class=\"num\">" + safeNum(row.totalAmount) + "</td>" +
+          "<td class=\"num\">" + safeNum(row.energyAmount) + "</td>" +
+          "<td class=\"num\">" + safeNum(row.vat) + "</td>" +
+          "<td class=\"num\">" + safeNum(row.rebate) + "</td>" +
+          "<td class=\"num\">" + safeNum(row.demandCharge) + "</td>" +
+          "<td class=\"num\">" + safeNum(row.meterRent) + "</td>" +
+          "<td>" + escapeHtml(row.status) + "</td>" +
+          "</tr>";
+      });
+
+      html += "</tbody></table>";
+      el("rechargeTable").innerHTML = html;
+    }
+
+    function updateCards(data) {
+      var balance = data.balance;
+      var rechargeRows = data.rechargeRows;
+      var balanceAmount = firstValue(balance, ["balance", "remainingBalance", "meterBalance", "availableBalance", "currentBalance"]);
+      var readingTime = firstValue(balance, ["readingTime", "readTime", "dateTime", "balanceTime", "lastReadingTime"]);
+
+      el("balanceValue").textContent = formatBDT(balanceAmount);
+      el("balanceSub").textContent = "Reading time: " + (readingTime || "--");
+
+      var latest = rechargeRows.slice().sort(function(a, b) {
+        return new Date(b.dateTime || b.date) - new Date(a.dateTime || a.date);
+      })[0];
+
+      el("lastRechargeValue").textContent = latest ? formatBDT(latest.totalAmount) : "--";
+      el("lastRechargeSub").textContent = "Recharge time: " + (latest ? (latest.dateTime || latest.date || "--") : "--");
+      el("currentMonthUnit").textContent = formatUnit(data.currentMonthUnit);
+      el("currentMonthTaka").textContent = formatBDT(data.currentMonthTaka) + " calculated from daily difference";
+      el("currentMonthRecharge").textContent = formatBDT(data.currentMonthRecharge);
+      el("currentYearRecharge").textContent = "Year total: " + formatBDT(data.currentYearRecharge);
+    }
+
+    async function loadDashboard() {
+      var accountNo = el("accountNo").value.trim();
+      var meterNo = el("meterNo").value.trim();
+      var dailyFrom = el("dailyFrom").value;
+      var dailyTo = el("dailyTo").value;
+      var monthFrom = el("monthFrom").value;
+      var monthTo = el("monthTo").value;
+      var systemType = el("systemType").value;
+
+      if (!accountNo || !meterNo) {
+        setStatus("Account No and Meter No are required.", true);
+        return;
+      }
+
+      if (!validateRanges()) {
+        setStatus("Range validation failed. Please select a range of 1 year or less.", true);
+        return;
+      }
+
+      var effectiveDailyFrom = toDateInputValue(addDays(parseLocalDate(dailyFrom), -1));
+      var rechargeFrom = getRechargeFromDate(dailyTo);
+
+      setStatus("Loading APIs...\nCustomer info, balance, recharge history, daily consumption, monthly consumption.");
+
+      try {
+        var today = new Date();
+        var currentMonth = toMonthInputValue(today);
+        var customerPath = systemType === "unified" ? "/api/unified/customer/getCustomerInfo" : "/api/tkdes/customer/getCustomerInfo";
+
+        var urls = {
+          customer: buildUrl(customerPath, { accountNo: accountNo, meterNo: meterNo }),
+          balance: buildUrl("/api/tkdes/customer/getBalance", { accountNo: accountNo, meterNo: meterNo }),
+          daily: buildUrl("/api/tkdes/customer/getCustomerDailyConsumption", { accountNo: accountNo, meterNo: meterNo, dateFrom: effectiveDailyFrom, dateTo: dailyTo }),
+          monthly: buildUrl("/api/tkdes/customer/getCustomerMonthlyConsumption", { accountNo: accountNo, meterNo: meterNo, monthFrom: monthFrom, monthTo: monthTo }),
+          recharge: buildUrl("/api/tkdes/customer/getRechargeHistory", { accountNo: accountNo, meterNo: meterNo, dateFrom: rechargeFrom, dateTo: dailyTo }),
+          location: buildUrl("/api/common/getCustomerLocation", { accountNo: accountNo }),
+          recentEvent: buildUrl("/api/complaint/push-notification/getRecentEvent", { accountNo: accountNo })
+        };
+
+        var settled = await Promise.allSettled([
+          fetchJsonWithRetry(urls.customer, { label: "Customer info", retries: 3, baseDelay: 700 }),
+          fetchJsonWithRetry(urls.balance, { label: "Balance", retries: 3, baseDelay: 700 }),
+          fetchJsonWithRetry(urls.daily, { label: "Daily consumption", retries: 3, baseDelay: 700 }),
+          fetchJsonWithRetry(urls.monthly, { label: "Monthly consumption", retries: 3, baseDelay: 700 }),
+          fetchJsonWithRetry(urls.location, { label: "Customer location", retries: 2, baseDelay: 700 }),
+          fetchJson(urls.recentEvent).catch(function(err) { return { code: 404, desc: err.message, data: null }; })
+        ]);
+
+        var customerRaw = settled[0];
+        var balanceRaw = settled[1];
+        var dailyRaw = settled[2];
+        var monthlyRaw = settled[3];
+        var locationRaw = settled[4];
+        var recentEventRaw = settled[5];
+
+        var rechargeRaw = await fetchJsonWithRetry(urls.recharge, {
+          label: "Recharge history",
+          retries: 7,
+          baseDelay: 1500
+        }).then(function(value) {
+          return { status: "fulfilled", value: value };
+        }).catch(function(reason) {
+          return { status: "rejected", reason: reason };
+        });
+
+        function getValue(settledResult, fallback) {
+          return settledResult.status === "fulfilled" ? settledResult.value : fallback;
+        }
+
+        var errors = [customerRaw, balanceRaw, dailyRaw, monthlyRaw, rechargeRaw]
+          .filter(function(item) { return item.status === "rejected"; })
+          .map(function(item) { return item.reason.message; });
+
+        if (errors.length) console.warn(errors);
+
+        var customer = normalizeCustomer(getValue(customerRaw, {}));
+        var balance = normalizeBalance(getValue(balanceRaw, {}));
+        var dailyRows = calculateDailyDifferences(normalizeDaily(getValue(dailyRaw, [])), dailyFrom);
+        var monthlyRowsRaw = normalizeMonthly(getValue(monthlyRaw, []));
+        var monthlyRows = mergeCurrentMonthFromDaily(monthlyRowsRaw, dailyRows, today);
+        var rechargeRows = normalizeRecharge(getValue(rechargeRaw, []));
+
+        var currentYearRechargeRows = rechargeRows.filter(function(row) {
+          return String(row.date || "").indexOf(String(today.getFullYear())) === 0;
+        });
+
+        var currentMonthRechargeRows = rechargeRows.filter(function(row) {
+          return String(row.date || "").indexOf(currentMonth) === 0;
+        });
+
+        var currentMonthDaily = getCurrentMonthDailyRows(dailyRows);
+
+        var currentMonthUnit = currentMonthDaily.reduce(function(sum, row) {
+          return sum + (Number.isFinite(row.dailyUnit) ? row.dailyUnit : 0);
+        }, 0);
+
+        var currentMonthTaka = currentMonthDaily.reduce(function(sum, row) {
+          return sum + (Number.isFinite(row.dailyTaka) ? row.dailyTaka : 0);
+        }, 0);
+
+        var currentMonthRecharge = currentMonthRechargeRows.reduce(function(sum, row) {
+          return sum + (Number.isFinite(row.totalAmount) ? row.totalAmount : 0);
+        }, 0);
+
+        var currentYearRecharge = currentYearRechargeRows.reduce(function(sum, row) {
+          return sum + (Number.isFinite(row.totalAmount) ? row.totalAmount : 0);
+        }, 0);
+
+        updateCards({
+          balance: balance,
+          rechargeRows: rechargeRows,
+          currentMonthUnit: currentMonthUnit,
+          currentMonthTaka: currentMonthTaka,
+          currentMonthRecharge: currentMonthRecharge,
+          currentYearRecharge: currentYearRecharge
+        });
+
+        renderCustomerTable(customer);
+        renderDailyTable(dailyRows);
+        renderMonthlyTable(monthlyRows);
+        renderRechargeTable(rechargeRows);
+        renderAllCharts({ dailyRows: dailyRows, monthlyRows: monthlyRows, rechargeRows: rechargeRows });
+
+        el("customerSource").textContent = systemType === "unified" ? "Unified API" : "TKDES API";
+
+        lastExport = {
+          urls: urls,
+          customer: customer,
+          balance: balance,
+          dailyRows: dailyRows,
+          currentMonthDailyRows: currentMonthDaily,
+          monthlyRowsRaw: monthlyRowsRaw,
+          monthlyRowsWithCurrentMonth: monthlyRows,
+          rechargeRows: rechargeRows,
+          currentYearRechargeRows: currentYearRechargeRows,
+          currentMonthRechargeRows: currentMonthRechargeRows,
+          location: getValue(locationRaw, null),
+          recentEvent: getValue(recentEventRaw, null),
+          notes: {
+            dailyCalculation: "dailyUnit = today consumedUnit - previous day consumedUnit. The dashboard fetches one extra previous day for accurate first-row calculation.",
+            dailyTakaCalculation: "If current row and previous row are in the same month, dailyTaka = today consumedTaka - previous consumedTaka. On a new month, dailyTaka = today consumedTaka.",
+            currentMonthCalculation: "Current month is added by summing calculated dailyUnit and dailyTaka because monthly API excludes ongoing month.",
+            rechargeRange: "Recharge history dateFrom is dateTo minus 12 months plus 1 day to satisfy DESCO range limit."
+          }
+        };
+
+        var errorText = errors.length ? "\n\nSome API failed. Check console for details." : "";
+
+        setStatus(
+          "Loaded successfully.\n" +
+          "Daily rows: " + dailyRows.length + "\n" +
+          "Current month daily rows shown: " + currentMonthDaily.length + "\n" +
+          "Monthly rows including current month: " + monthlyRows.length + "\n" +
+          "Recharge rows: " + rechargeRows.length + "\n" +
+          "Recharge date range used: " + rechargeFrom + " to " + dailyTo + errorText
+        );
+      } catch (err) {
+        console.error(err);
+        setStatus(err.message || String(err), true);
+      }
+    }
+
+    function exportJson() {
+      var blob = new Blob([JSON.stringify(lastExport, null, 2)], { type: "application/json" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+
+      a.href = url;
+      a.download = "desco-dashboard-export.json";
+      a.click();
+
+      URL.revokeObjectURL(url);
+    }
+
+    function openRechargePage() {
+      var accountNo = el("accountNo").value.trim();
+      var meterNo = el("meterNo").value.trim();
+
+      Swal.fire({
+        icon: "info",
+        title: "Open recharge page?",
+        html: "You will be redirected to eKPay DESCO Prepaid recharge page.<br><br><strong>Account No:</strong> " + escapeHtml(accountNo || "Not set") + "<br><strong>Meter No:</strong> " + escapeHtml(meterNo || "Not set"),
+        showCancelButton: true,
+        confirmButtonText: "Open eKPay",
+        cancelButtonText: "Cancel"
+      }).then(function(result) {
+        if (result.isConfirmed) {
+          window.open(RECHARGE_URL, "_blank", "noopener,noreferrer");
+        }
+      });
+    }
+
+    function runSelfTests() {
+      console.assert(toDateInputValue(new Date(2026, 4, 6)) === "2026-05-06", "toDateInputValue failed");
+      console.assert(getRechargeFromDate("2026-05-06") === "2025-05-07", "getRechargeFromDate failed");
+      console.assert(monthsBetweenInclusive("2025-11", "2026-04") === 6, "monthsBetweenInclusive failed");
+
+      var sampleDaily = normalizeDaily({
+        code: 200,
+        data: [
+          { date: "2026-04-30", consumedUnit: 100, consumedTaka: 50 },
+          { date: "2026-05-01", consumedUnit: 105, consumedTaka: 20 },
+          { date: "2026-05-02", consumedUnit: 112, consumedTaka: 45 }
+        ]
+      });
+
+      var calculated = calculateDailyDifferences(sampleDaily, "2026-05-01");
+
+      console.assert(calculated.length === 2, "daily visible filter failed");
+      console.assert(calculated[0].dailyUnit === 5, "month-start daily unit failed");
+      console.assert(calculated[0].dailyTaka === 20, "month-start daily taka failed");
+      console.assert(calculated[1].dailyUnit === 7, "same-month daily unit failed");
+      console.assert(calculated[1].dailyTaka === 25, "same-month daily taka failed");
+    }
+
+    function initDashboard() {
+      try {
+        runSelfTests();
+        setDefaults();
+
+        el("loadBtn").addEventListener("click", loadDashboard);
+        el("exportBtn").addEventListener("click", exportJson);
+        el("rechargeBtn").addEventListener("click", openRechargePage);
+
+        setStatus("Ready. Default range selected: last 6 months. Click Load Dashboard.");
+      } catch (err) {
+        console.error(err);
+
+        var statusEl = document.getElementById("status");
+
+        if (statusEl) {
+          statusEl.textContent = "Init error: " + (err.message || String(err));
+          statusEl.className = "status error";
+        }
+      }
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initDashboard);
+    } else {
+      initDashboard();
+    }
+  </script>
+</body>
+</html>
