@@ -1073,11 +1073,863 @@
       display: none !important;
     }
 
+  
+    .login-page{min-height:100vh;padding:32px 18px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at top left,rgba(20,99,255,.18),transparent 28%),radial-gradient(circle at bottom right,rgba(3,152,85,.12),transparent 30%),linear-gradient(135deg,#eff6ff 0%,#f8fbff 55%,#eef7f2 100%)}
+    .login-shell{width:min(1100px,100%);display:grid;grid-template-columns:1.15fr .85fr;gap:22px;align-items:stretch}
+    .login-brand-card,.login-card{border-radius:28px;border:1px solid rgba(217,226,239,.85);box-shadow:0 24px 80px rgba(16,24,40,.12);overflow:hidden}
+    .login-brand-card{position:relative;padding:38px;color:#fff;background:linear-gradient(135deg,rgba(11,61,145,.96),rgba(20,99,255,.92)),linear-gradient(135deg,#0b3d91,#1463ff)}
+    .login-brand-card::after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-80px;top:-90px;background:rgba(255,255,255,.10)}
+    .login-badge{display:inline-flex;padding:9px 14px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);font-size:12px;font-weight:800;margin-bottom:22px;position:relative;z-index:1}
+    .login-brand-card h1{font-size:clamp(30px,5vw,48px);line-height:1.08;font-weight:800;letter-spacing:-1.2px;max-width:620px;margin:0 0 16px;position:relative;z-index:1}
+    .login-brand-card p{max-width:620px;font-size:16px;line-height:1.75;color:rgba(255,255,255,.86);margin:0;position:relative;z-index:1}
+    .login-feature-list{margin-top:34px;display:grid;gap:12px;position:relative;z-index:1}.login-feature-list div{padding:14px 16px;border-radius:18px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(10px)}.login-feature-list strong{display:block;color:#fff;font-size:14px;margin-bottom:3px}.login-feature-list span{display:block;color:rgba(255,255,255,.78);font-size:12px;line-height:1.55}
+    .login-card{background:rgba(255,255,255,.92);backdrop-filter:blur(14px);padding:30px;align-self:center}.login-card-head{display:flex;align-items:center;gap:14px;margin-bottom:24px}.login-icon{width:52px;height:52px;display:inline-flex;align-items:center;justify-content:center;border-radius:18px;background:#eef4ff;font-size:24px}.login-card h2{margin:0;font-size:24px;font-weight:800;color:#102a56}.login-card p{margin:4px 0 0;color:#667085;font-size:13px;line-height:1.5}.login-input-group .form-control,.login-input-group .input-group-text{height:50px;font-size:15px}.login-btn{width:100%;height:52px;border-radius:16px!important;margin-top:16px;font-weight:800!important;box-shadow:0 16px 34px rgba(20,99,255,.20)!important}.login-status{margin-top:14px;border-radius:14px;padding:11px 13px;font-size:13px;line-height:1.55;background:#f8fbff;border:1px dashed #c9d7eb;color:#344054}.login-status.error{color:#b42318;background:#fff5f5;border-color:#fecaca}.login-small-note{margin-top:14px;color:#667085;font-size:12px;line-height:1.6;text-align:center}@media(max-width:900px){.login-shell{grid-template-columns:1fr}.login-brand-card{padding:28px}}
+
+  
+    /* ==========================================================
+       V2 NEXT-GEN SAAS / MOBILE APP UI OVERRIDE
+       ========================================================== */
+    :root {
+      --app-bg: #eef4ff;
+      --app-surface: rgba(255, 255, 255, .82);
+      --app-surface-solid: #ffffff;
+      --app-ink: #0f172a;
+      --app-muted: #64748b;
+      --app-border: rgba(148, 163, 184, .24);
+      --app-primary: #2563eb;
+      --app-primary-2: #06b6d4;
+      --app-success: #10b981;
+      --app-warning: #f59e0b;
+      --app-danger: #ef4444;
+      --app-shadow: 0 24px 80px rgba(15, 23, 42, .10);
+      --app-shadow-sm: 0 12px 32px rgba(15, 23, 42, .08);
+      --app-radius-xl: 28px;
+      --app-radius-lg: 22px;
+      --app-radius-md: 16px;
+      --app-blur: blur(20px);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--app-ink);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(37, 99, 235, .16), transparent 32%),
+        radial-gradient(circle at 90% 10%, rgba(6, 182, 212, .12), transparent 30%),
+        radial-gradient(circle at 50% 100%, rgba(16, 185, 129, .10), transparent 34%),
+        linear-gradient(180deg, #f8fbff 0%, #eef4ff 48%, #f7fbff 100%) !important;
+      font-family: "Inter", "Hind Siliguri", Arial, sans-serif !important;
+    }
+
+    html[data-lang="bn"] body {
+      font-family: "Hind Siliguri", "Inter", Arial, sans-serif !important;
+    }
+
+    .container {
+      width: min(1480px, calc(100% - 32px)) !important;
+      margin: 20px auto 72px !important;
+    }
+
+    /* Login app shell */
+    .login-page {
+      min-height: 100svh;
+      padding: clamp(18px, 4vw, 48px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at 10% 5%, rgba(37, 99, 235, .25), transparent 28%),
+        radial-gradient(circle at 88% 16%, rgba(6, 182, 212, .20), transparent 28%),
+        linear-gradient(145deg, #eff6ff 0%, #ffffff 48%, #ecfeff 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-page::before,
+    .login-page::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(2px);
+      opacity: .65;
+      pointer-events: none;
+    }
+
+    .login-page::before {
+      width: 360px;
+      height: 360px;
+      left: -150px;
+      bottom: -140px;
+      background: linear-gradient(135deg, rgba(37, 99, 235, .20), rgba(6, 182, 212, .08));
+    }
+
+    .login-page::after {
+      width: 300px;
+      height: 300px;
+      right: -110px;
+      top: -110px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, .16), rgba(37, 99, 235, .10));
+    }
+
+    .login-shell {
+      width: min(1180px, 100%);
+      display: grid;
+      grid-template-columns: 1.18fr .82fr;
+      gap: 24px;
+      align-items: stretch;
+      position: relative;
+      z-index: 1;
+    }
+
+    .login-brand-card,
+    .login-card {
+      border: 1px solid rgba(255, 255, 255, .70);
+      box-shadow: var(--app-shadow);
+      border-radius: 34px;
+      overflow: hidden;
+    }
+
+    .login-brand-card {
+      position: relative;
+      padding: clamp(30px, 5vw, 54px);
+      min-height: 600px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background:
+        linear-gradient(135deg, rgba(15, 23, 42, .88), rgba(37, 99, 235, .82)),
+        linear-gradient(135deg, #0f172a, #2563eb);
+      color: #fff;
+    }
+
+    .login-brand-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 18% 20%, rgba(255, 255, 255, .18), transparent 18%),
+        radial-gradient(circle at 76% 22%, rgba(6, 182, 212, .28), transparent 26%),
+        linear-gradient(120deg, rgba(255,255,255,.08), transparent 34%);
+      pointer-events: none;
+    }
+
+    .login-brand-card::after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      bottom: -90px;
+      width: 330px;
+      height: 330px;
+      border-radius: 50%;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.20), rgba(255,255,255,.05));
+      border: 1px solid rgba(255,255,255,.24);
+      box-shadow: inset 0 0 80px rgba(255,255,255,.08);
+    }
+
+    .login-badge {
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.13);
+      border: 1px solid rgba(255,255,255,.20);
+      backdrop-filter: blur(12px);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+
+    .login-badge::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 18px rgba(34, 197, 94, .85);
+    }
+
+    .login-brand-card h1 {
+      max-width: 680px;
+      margin: 28px 0 16px;
+      font-size: clamp(36px, 6vw, 62px);
+      line-height: .98;
+      letter-spacing: -2.2px;
+      font-weight: 900;
+      position: relative;
+      z-index: 1;
+    }
+
+    .login-brand-card p {
+      max-width: 610px;
+      font-size: 16px;
+      line-height: 1.75;
+      color: rgba(255,255,255,.78);
+      margin: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .login-feature-list {
+      margin-top: 34px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .login-feature-list div {
+      padding: 16px;
+      border-radius: 22px;
+      background: rgba(255,255,255,.11);
+      border: 1px solid rgba(255,255,255,.16);
+      backdrop-filter: blur(16px);
+      min-height: 132px;
+    }
+
+    .login-feature-list strong {
+      display: block;
+      color: #fff;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .login-feature-list span {
+      display: block;
+      color: rgba(255,255,255,.74);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .login-card {
+      align-self: center;
+      background: rgba(255,255,255,.80);
+      backdrop-filter: var(--app-blur);
+      padding: clamp(24px, 4vw, 34px);
+    }
+
+    .login-card-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+
+    .login-icon {
+      flex: 0 0 auto;
+      width: 56px;
+      height: 56px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 20px;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255,255,255,.65), transparent 38%),
+        linear-gradient(135deg, #2563eb, #06b6d4);
+      color: #fff;
+      box-shadow: 0 18px 38px rgba(37, 99, 235, .28);
+      font-size: 25px;
+    }
+
+    .login-card h2 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.1;
+      font-weight: 900;
+      letter-spacing: -.5px;
+      color: #0f172a;
+    }
+
+    .login-card p {
+      margin: 6px 0 0;
+      color: var(--app-muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .login-input-group .form-control,
+    .login-input-group .input-group-text {
+      height: 54px;
+      border-radius: 18px;
+      font-size: 15px;
+      border-color: rgba(148, 163, 184, .26);
+    }
+
+    .login-input-group .input-group-text {
+      background: #f8fafc;
+      color: #2563eb;
+      font-weight: 900;
+    }
+
+    .login-btn {
+      width: 100%;
+      height: 56px;
+      border: 0 !important;
+      border-radius: 18px !important;
+      margin-top: 18px;
+      font-weight: 900 !important;
+      letter-spacing: -.2px;
+      background: linear-gradient(135deg, #2563eb, #06b6d4) !important;
+      box-shadow: 0 18px 40px rgba(37, 99, 235, .28) !important;
+    }
+
+    .login-status {
+      margin-top: 14px;
+      border-radius: 18px;
+      padding: 12px 14px;
+      font-size: 13px;
+      line-height: 1.55;
+      background: #eff6ff;
+      border: 1px dashed rgba(37, 99, 235, .28);
+      color: #1e3a8a;
+    }
+
+    .login-status.error {
+      color: #b42318;
+      background: #fff5f5;
+      border-color: #fecaca;
+    }
+
+    .login-small-note {
+      margin-top: 16px;
+      color: var(--app-muted);
+      font-size: 12px;
+      line-height: 1.7;
+      text-align: center;
+    }
+
+    /* Dashboard shell */
+    #dashboardApp {
+      animation: appFadeUp .45s ease both;
+    }
+
+    @keyframes appFadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero {
+      border-radius: 32px !important;
+      padding: clamp(22px, 4vw, 36px) !important;
+      margin-bottom: 18px !important;
+      border: 1px solid rgba(255,255,255,.65);
+      background:
+        linear-gradient(135deg, rgba(15, 23, 42, .92), rgba(37, 99, 235, .86)),
+        linear-gradient(135deg, #0f172a, #2563eb) !important;
+      box-shadow: var(--app-shadow) !important;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 12% 12%, rgba(255,255,255,.16), transparent 18%),
+        radial-gradient(circle at 78% 25%, rgba(6, 182, 212, .28), transparent 26%);
+      pointer-events: none;
+    }
+
+    .hero-head-row,
+    .hero h1,
+    .hero p,
+    .hero-mini-stats {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      max-width: 920px;
+      font-size: clamp(30px, 4vw, 46px) !important;
+      font-weight: 900 !important;
+      letter-spacing: -1.4px;
+    }
+
+    .hero p {
+      max-width: 820px;
+      color: rgba(255,255,255,.76) !important;
+    }
+
+    .hero-badge,
+    .language-toggle-wrap,
+    .hero-mini-stats div {
+      background: rgba(255,255,255,.12) !important;
+      border: 1px solid rgba(255,255,255,.16) !important;
+      backdrop-filter: blur(14px);
+      box-shadow: none;
+    }
+
+    .hero-mini-stats div {
+      border-radius: 20px !important;
+      padding: 14px 16px !important;
+    }
+
+    .panel,
+    .card {
+      border: 1px solid var(--app-border) !important;
+      border-radius: var(--app-radius-lg) !important;
+      background: var(--app-surface) !important;
+      backdrop-filter: var(--app-blur);
+      box-shadow: var(--app-shadow-sm) !important;
+    }
+
+    .modern-panel {
+      padding: clamp(18px, 2.4vw, 26px) !important;
+    }
+
+    .panel-title {
+      color: #0f172a !important;
+      font-weight: 900 !important;
+      letter-spacing: -.5px;
+    }
+
+    .panel-subtitle {
+      color: var(--app-muted) !important;
+      line-height: 1.65;
+    }
+
+    .quick-help-box {
+      background:
+        linear-gradient(135deg, rgba(37, 99, 235, .08), rgba(6, 182, 212, .08)) !important;
+      border: 1px solid rgba(37, 99, 235, .14) !important;
+      border-radius: 18px !important;
+    }
+
+    .form-control,
+    .form-select,
+    .input-group-text {
+      height: 46px !important;
+      border-radius: 15px !important;
+      border-color: rgba(148, 163, 184, .28) !important;
+      background-color: rgba(255,255,255,.86) !important;
+    }
+
+    .input-group .input-group-text:first-child {
+      border-top-right-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
+    }
+
+    .input-group .form-control:last-child {
+      border-top-left-radius: 0 !important;
+      border-bottom-left-radius: 0 !important;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      border-color: rgba(37, 99, 235, .70) !important;
+      box-shadow: 0 0 0 .24rem rgba(37, 99, 235, .12) !important;
+    }
+
+    .action-toolbar {
+      gap: 10px !important;
+    }
+
+    .btn-action-main,
+    .btn-action,
+    .recharge-btn {
+      min-height: 48px !important;
+      border-radius: 16px !important;
+      font-weight: 900 !important;
+    }
+
+    .btn-primary,
+    .btn-action-main {
+      border: 0 !important;
+      background: linear-gradient(135deg, #2563eb, #06b6d4) !important;
+      box-shadow: 0 16px 34px rgba(37, 99, 235, .20) !important;
+    }
+
+    .btn-outline-secondary {
+      border-color: rgba(100,116,139,.24) !important;
+      color: #334155 !important;
+      background: rgba(255,255,255,.72) !important;
+    }
+
+    .btn-outline-danger {
+      border-color: rgba(239, 68, 68, .25) !important;
+      color: #dc2626 !important;
+      background: rgba(255,255,255,.72) !important;
+    }
+
+    .recharge-btn {
+      background: linear-gradient(135deg, #059669, #10b981) !important;
+      box-shadow: 0 16px 34px rgba(16, 185, 129, .20) !important;
+    }
+
+    .cards {
+      gap: 14px !important;
+    }
+
+    .cards .card {
+      min-height: 142px;
+      position: relative;
+    }
+
+    .cards .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(37,99,235,.07), transparent 42%);
+      pointer-events: none;
+    }
+
+    .metric-title {
+      color: var(--app-muted) !important;
+      font-weight: 800 !important;
+    }
+
+    .metric-value {
+      color: #0f172a !important;
+      font-weight: 900 !important;
+      letter-spacing: -.8px;
+    }
+
+    .metric-sub {
+      color: var(--app-muted) !important;
+    }
+
+    .section-title h2 {
+      font-weight: 900 !important;
+      letter-spacing: -.45px;
+      color: #0f172a !important;
+    }
+
+    .section-title span {
+      color: var(--app-muted) !important;
+    }
+
+    canvas {
+      height: 320px !important;
+    }
+
+    .table-wrap {
+      border: 1px solid rgba(148, 163, 184, .22) !important;
+      border-radius: 18px !important;
+      background: #fff;
+    }
+
+    table {
+      background: #fff !important;
+      font-size: 13px;
+    }
+
+    th {
+      background: #f8fafc !important;
+      color: #64748b !important;
+      font-size: 11px !important;
+      letter-spacing: .06em !important;
+    }
+
+    td {
+      color: #1e293b;
+    }
+
+    tr:hover td {
+      background: #f8fbff;
+    }
+
+    .customer-field-card,
+    .slab-summary-item,
+    .customer-detail-item {
+      background: rgba(255,255,255,.86) !important;
+      border-color: rgba(148, 163, 184, .22) !important;
+      border-radius: 16px !important;
+    }
+
+    .progress-wrap {
+      background: rgba(255,255,255,.78) !important;
+      border-color: rgba(37,99,235,.16) !important;
+      border-radius: 18px !important;
+    }
+
+    .modern-progress {
+      height: 14px !important;
+      background: #e2e8f0 !important;
+    }
+
+    .progress-bar {
+      background: linear-gradient(135deg, #2563eb, #06b6d4) !important;
+    }
+
+    .modal-content {
+      border: 0 !important;
+      border-radius: 26px !important;
+      box-shadow: 0 26px 90px rgba(15, 23, 42, .22) !important;
+    }
+
+    .modal-header {
+      border-bottom: 0 !important;
+    }
+
+    .swal2-popup {
+      border-radius: 26px !important;
+      font-family: "Inter", "Hind Siliguri", Arial, sans-serif !important;
+    }
+
+    /* Mobile app polish */
+    @media (max-width: 900px) {
+      .login-page {
+        align-items: stretch;
+        padding: 14px;
+      }
+
+      .login-shell {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .login-brand-card {
+        min-height: auto;
+        border-radius: 28px;
+        padding: 26px;
+      }
+
+      .login-brand-card h1 {
+        font-size: 34px;
+        letter-spacing: -1.2px;
+        margin-top: 22px;
+      }
+
+      .login-feature-list {
+        grid-template-columns: 1fr;
+        margin-top: 24px;
+      }
+
+      .login-feature-list div {
+        min-height: auto;
+      }
+
+      .login-card {
+        border-radius: 28px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        background:
+          radial-gradient(circle at 50% -10%, rgba(37,99,235,.18), transparent 34%),
+          linear-gradient(180deg, #f8fbff 0%, #eef4ff 100%) !important;
+      }
+
+      .container {
+        width: 100% !important;
+        margin: 0 auto 54px !important;
+        padding: 10px !important;
+      }
+
+      .hero {
+        border-radius: 28px !important;
+        padding: 22px !important;
+        margin-bottom: 12px !important;
+      }
+
+      .hero h1 {
+        font-size: 30px !important;
+      }
+
+      .hero p {
+        font-size: 14px !important;
+      }
+
+      .hero-mini-stats {
+        display: grid !important;
+        grid-template-columns: 1fr;
+      }
+
+      .hero-mini-stats div {
+        min-width: 0 !important;
+      }
+
+      .panel,
+      .card {
+        border-radius: 24px !important;
+      }
+
+      .modern-panel {
+        padding: 16px !important;
+      }
+
+      .panel-top {
+        margin-bottom: 14px !important;
+      }
+
+      .panel-title {
+        font-size: 21px !important;
+      }
+
+      .row.g-3 {
+        --bs-gutter-y: .75rem;
+      }
+
+      .quick-help-box,
+      .form-note,
+      #systemType,
+      label[for="systemType"] {
+        display: none !important;
+      }
+
+      .action-toolbar {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px !important;
+        position: sticky;
+        bottom: 10px;
+        z-index: 20;
+        padding: 10px;
+        border-radius: 22px;
+        background: rgba(255,255,255,.86);
+        backdrop-filter: blur(18px);
+        border: 1px solid rgba(148,163,184,.24);
+        box-shadow: 0 18px 50px rgba(15,23,42,.12);
+      }
+
+      .action-toolbar > * {
+        width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+      }
+
+      .btn-action-main {
+        grid-column: span 2;
+      }
+
+      .cards {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+      }
+
+      .cards .card {
+        min-height: 128px;
+        padding: 14px !important;
+      }
+
+      .metric-value {
+        font-size: 21px !important;
+      }
+
+      .metric-sub {
+        font-size: 11px !important;
+      }
+
+      .grid-2,
+      .grid-1 {
+        gap: 12px !important;
+        margin-bottom: 12px !important;
+      }
+
+      .section-title {
+        gap: 8px;
+      }
+
+      .section-title h2 {
+        font-size: 18px !important;
+      }
+
+      .section-title span {
+        font-size: 11px !important;
+      }
+
+      canvas {
+        height: 280px !important;
+      }
+
+      table {
+        min-width: 720px;
+      }
+
+      .customer-fields-profile {
+        grid-template-columns: 1fr !important;
+      }
+
+      .modal-dialog {
+        margin: 10px !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .login-page {
+        padding: 10px;
+      }
+
+      .login-brand-card {
+        padding: 22px;
+        border-radius: 26px;
+      }
+
+      .login-brand-card h1 {
+        font-size: 30px;
+      }
+
+      .login-card {
+        padding: 22px;
+        border-radius: 26px;
+      }
+
+      .login-card-head {
+        align-items: flex-start;
+      }
+
+      .cards {
+        grid-template-columns: 1fr !important;
+      }
+
+      .action-toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .btn-action-main {
+        grid-column: span 1;
+      }
+
+      .hero-head-row {
+        align-items: flex-start;
+      }
+
+      .language-toggle-wrap {
+        width: 100%;
+      }
+    }
+
   </style>
 </head>
 
 <body>
-  <div class="container">
+
+  <section id="loginPage" class="login-page">
+    <div class="login-shell">
+      <div class="login-brand-card">
+        <div class="login-badge">DESCO Prepaid</div>
+        <h1>Smart Electricity Dashboard</h1>
+        <p>Login once with your account number. Your meter and dashboard settings will be saved locally in this browser.</p>
+        <div class="login-feature-list">
+          <div><strong>Auto meter detection</strong><span>Meter number will be fetched from DESCO using your account number.</span></div>
+          <div><strong>Saved session</strong><span>No need to enter the same account every time.</span></div>
+          <div><strong>Private by design</strong><span>Data is stored only in your browser localStorage.</span></div>
+        </div>
+      </div>
+      <div class="login-card">
+        <div class="login-card-head"><span class="login-icon">⚡</span><div><h2>Account Login</h2><p>Enter your DESCO prepaid account number to continue.</p></div></div>
+        <label for="loginAccountNo" class="form-label">Account Number</label>
+        <div class="input-group login-input-group"><span class="input-group-text">A/C</span><input id="loginAccountNo" class="form-control" value="41301620" inputmode="numeric" autocomplete="off" placeholder="Enter account number" /></div>
+        <button id="loginBtn" type="button" class="btn btn-primary login-btn">Continue to Dashboard</button>
+        <div id="loginStatus" class="login-status d-none"></div>
+        <div class="login-small-note">Default demo account is already filled. You can replace it with your own account number.</div>
+      </div>
+    </div>
+  </section>
+
+  <div id="dashboardApp" class="container d-none">
     <section class="hero">
       <div class="hero-head-row">
         <div class="hero-badge" data-i18n="heroBadge">DESCO Smart Utility Dashboard</div>
@@ -1185,12 +2037,13 @@
       </div>
 
       <div class="action-toolbar">
-        <button id="loadBtn" type="button" class="btn btn-primary btn-action-main" data-i18n="loadData" data-i18n="loadData">Load Data</button>
+        <button id="loadBtn" type="button" class="btn btn-primary btn-action-main" data-i18n="loadData">Load Data</button>
         <!-- FUTURE EXPORT JSON BUTTON - uncomment if needed:
-        <button class="btn btn-outline-primary btn-action" id="exportBtn" type="button" data-i18n="exportJson" data-i18n="exportJson">Export JSON</button>
+        <button class="btn btn-outline-primary btn-action" id="exportBtn" type="button" data-i18n="exportJson">Export JSON</button>
         -->
         <button class="btn btn-outline-secondary btn-action" id="resetDatesBtn" type="button">Reset Dates</button>
-        <button class="btn btn-success btn-action recharge-btn" id="rechargeBtn" type="button" data-i18n="copyRecharge" data-i18n="copyRecharge">Copy & Recharge</button>
+        <button class="btn btn-outline-danger btn-action" id="logoutBtn" type="button">Logout</button>
+        <button class="btn btn-success btn-action recharge-btn" id="rechargeBtn" type="button" data-i18n="copyRecharge">Copy & Recharge</button>
       </div>
 
       <div class="small text-muted mt-2 form-note">
@@ -1211,7 +2064,7 @@
 
     <section class="cards dashboard-data-section d-none">
       <div class="card">
-        <div class="metric-title" data-i18n="balanceTitle"><span data-i18n="balanceTitle">Current Balance</span></div>
+        <div class="metric-title" data-i18n="balanceTitle">Current Balance</div>
         <div id="balanceValue" class="metric-value">--</div>
         <div id="balanceSub" class="metric-sub" data-i18n="readingTimeEmpty">Live balance from DESCO API</div>
       </div>
@@ -1222,17 +2075,17 @@
         <div id="calculatedBalanceSub" class="metric-sub" data-i18n="calculatedBalanceSub">Energy recharge minus consumption</div>
       </div>
 <div class="card">
-        <div class="metric-title" data-i18n="lastRecharge"><span data-i18n="lastRecharge">Last Recharge</span></div>
+        <div class="metric-title" data-i18n="lastRecharge">Last Recharge</div>
         <div id="lastRechargeValue" class="metric-value">--</div>
         <div id="lastRechargeSub" class="metric-sub" data-i18n="rechargeTimeEmpty">Latest successful recharge from history</div>
       </div>
       <div class="card">
-        <div class="metric-title" data-i18n="usedThisMonth"><span data-i18n="usedThisMonth">Used This Month</span></div>
+        <div class="metric-title" data-i18n="usedThisMonth">Used This Month</div>
         <div id="currentMonthUnit" class="metric-value">--</div>
         <div id="currentMonthTaka" class="metric-sub" data-i18n="calculatedDaily">Calculated from latest visible daily usage</div>
       </div>
       <div class="card">
-        <div class="metric-title" data-i18n="rechargedThisMonth"><span data-i18n="rechargedThisMonth">Recharged This Month</span></div>
+        <div class="metric-title" data-i18n="rechargedThisMonth">Recharged This Month</div>
         <div id="currentMonthRecharge" class="metric-value">--</div>
         <div id="currentYearRecharge" class="metric-sub" data-i18n="yearTotalEmpty">Yearly recharge total after loading</div>
       </div>
@@ -1241,14 +2094,14 @@
     <section class="grid-2 dashboard-data-section d-none">
       <div class="card">
         <div class="section-title">
-          <h2 data-i18n="dailyConsumption"><span data-i18n="dailyConsumption">Daily Consumption</span></h2>
+          <h2 data-i18n="dailyConsumption">Daily Consumption</h2>
           <span data-i18n="dailyChartSub">Daily unit and cost trend for the selected visible month</span>
         </div>
         <canvas id="dailyChart"></canvas>
       </div>
       <div class="card">
         <div class="section-title">
-          <h2 data-i18n="monthlyConsumption"><span data-i18n="monthlyConsumption">Monthly Consumption</span></h2>
+          <h2 data-i18n="monthlyConsumption">Monthly Consumption</h2>
           <span data-i18n="monthlyChartSub">Monthly consumption summary with the current month calculated from daily data</span>
         </div>
         <canvas id="monthlyChart"></canvas>
@@ -2736,6 +3589,22 @@
     }
 
 
+
+    var SESSION_STORAGE_KEY = "descoDashboardV2Session";
+    function readStoredSession(){try{var raw=localStorage.getItem(SESSION_STORAGE_KEY);return raw?JSON.parse(raw):null}catch(err){console.warn("Failed to read stored session:",err);return null}}
+    function saveStoredSession(session){localStorage.setItem(SESSION_STORAGE_KEY,JSON.stringify({accountNo:session.accountNo||"",meterNo:session.meterNo||"",savedAt:new Date().toISOString()}));}
+    function clearStoredSession(){localStorage.removeItem(SESSION_STORAGE_KEY);}
+    function setLoginStatus(message,isError){var box=el("loginStatus");if(!box)return;if(!message){box.textContent="";box.className="login-status d-none";return;}box.textContent=message;box.className=isError?"login-status error":"login-status";}
+    function setLoginButtonLoading(isLoading){var btn=el("loginBtn");if(!btn)return;if(isLoading){if(!btn.getAttribute("data-original-html")){btn.setAttribute("data-original-html",btn.innerHTML);}btn.disabled=true;btn.innerHTML='<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Checking account...';}else{btn.disabled=false;var original=btn.getAttribute("data-original-html");if(original){btn.innerHTML=original;btn.removeAttribute("data-original-html");}}}
+    function showLoginPage(){var loginPage=el("loginPage");var dashboardApp=el("dashboardApp");if(loginPage)loginPage.classList.remove("d-none");if(dashboardApp)dashboardApp.classList.add("d-none");hideProgress();hideDashboardDataSections();setStatus("",false);}
+    function showDashboardShell(){var loginPage=el("loginPage");var dashboardApp=el("dashboardApp");if(loginPage)loginPage.classList.add("d-none");if(dashboardApp)dashboardApp.classList.remove("d-none");}
+    function setAccountInputs(accountNo,meterNo){if(el("accountNo"))el("accountNo").value=accountNo||"";if(el("meterNo"))el("meterNo").value=meterNo||"";if(el("loginAccountNo"))el("loginAccountNo").value=accountNo||"";}
+    function getMeterFromCustomer(customer){return firstValue(customer,["meterNo","meterNumber","prepaidMeterNo","meterNum","mtrNo"]);}
+    async function fetchCustomerByAccount(accountNo){var url=buildUrl("/api/tkdes/customer/getCustomerInfo",{accountNo:accountNo});var raw=await fetchJsonWithRetry(url,{label:"Customer info",retries:3,baseDelay:700});return normalizeCustomer(raw);}
+    async function handleLogin(){var accountNo=(el("loginAccountNo")?el("loginAccountNo").value:"").trim();if(!accountNo){setLoginStatus("Please enter your account number.",true);return;}setLoginButtonLoading(true);setLoginStatus("Fetching meter information from DESCO...",false);try{var customer=await fetchCustomerByAccount(accountNo);var meterNo=getMeterFromCustomer(customer);if(!meterNo&&accountNo==="41301620"){meterNo="661150029802";}if(!meterNo){throw new Error("Meter number was not found for this account. Please check the account number.");}saveStoredSession({accountNo:accountNo,meterNo:meterNo});setAccountInputs(accountNo,meterNo);setLoginStatus("",false);showDashboardShell();hideDashboardDataSections();await loadDashboard();}catch(err){console.error(err);setLoginStatus(err.message||String(err),true);}finally{setLoginButtonLoading(false);}}
+    function logoutDashboard(){clearStoredSession();lastExport={};Object.keys(charts||{}).forEach(function(key){if(charts[key])charts[key].destroy();});charts={};setAccountInputs("41301620","661150029802");showLoginPage();Swal.fire({icon:"success",title:"Logged out",text:"Saved account data has been cleared from this browser.",confirmButtonText:"OK"});}
+    function restoreSavedSessionOrShowLogin(){var session=readStoredSession();if(session&&session.accountNo&&session.meterNo){setAccountInputs(session.accountNo,session.meterNo);showDashboardShell();hideDashboardDataSections();return;}setAccountInputs("41301620","661150029802");showLoginPage();}
+
     async function loadDashboard() {
       var accountNo = el("accountNo").value.trim();
       var meterNo = el("meterNo").value.trim();
@@ -2746,6 +3615,8 @@
       var baseBalanceDate = el("baseBalanceDate") ? el("baseBalanceDate").value : "2026-04-01";
       var baseBalanceAmount = el("baseBalanceAmount") ? el("baseBalanceAmount").value : "270";
       var systemType = el("systemType").value;
+
+      saveStoredSession({ accountNo: accountNo, meterNo: meterNo });
 
       if (!accountNo || !meterNo) {
         setStatus(t("accountMeterRequired"), true);
@@ -3507,7 +4378,6 @@ someApiFailed: "কিছু API ব্যর্থ হয়েছে। বিস
     function initDashboard() {
       try {
         runSelfTests();
-
         initDatePickers();
         setDefaults();
         applyLanguage(currentLanguage);
@@ -3520,25 +4390,36 @@ someApiFailed: "কিছু API ব্যর্থ হয়েছে। বিস
               rerenderLoadedTablesForLanguage();
             }
             updateSlabButton(latestSlabState ? latestSlabState.totalUnit : 0);
-            hideDashboardDataSections();
+            if (lastExport && lastExport.dailyRows && lastExport.dailyRows.length) {
+              showDashboardDataSections();
+            } else {
+              hideDashboardDataSections();
+            }
           });
         }
 
+        var loginBtn = el("loginBtn");
+        if (loginBtn) loginBtn.addEventListener("click", handleLogin);
+        var loginAccountNo = el("loginAccountNo");
+        if (loginAccountNo) {
+          loginAccountNo.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") handleLogin();
+          });
+        }
         var loadBtn = el("loadBtn");
         if (loadBtn) loadBtn.addEventListener("click", loadDashboard);
-
         // Export JSON button is currently commented out in HTML.
         // Uncomment the button above to enable this again.
         var exportBtn = el("exportBtn");
         if (exportBtn) exportBtn.addEventListener("click", exportJson);
-
         var rechargeBtn = el("rechargeBtn");
         if (rechargeBtn) rechargeBtn.addEventListener("click", openRechargePage);
-
+        var logoutBtn = el("logoutBtn");
+        if (logoutBtn) logoutBtn.addEventListener("click", logoutDashboard);
         var resetBtn = el("resetDatesBtn");
         if (resetBtn) resetBtn.addEventListener("click", setDefaults);
 
-        hideDashboardDataSections();
+        restoreSavedSessionOrShowLogin();
       } catch (err) {
         console.error(err);
         var statusEl = document.getElementById("status");
